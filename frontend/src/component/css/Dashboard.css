@@ -1,0 +1,214 @@
+.dashboard-container {
+    padding: 30px;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+
+.dashboard-header {
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+    color: #1e2a3d; /* Darker shade for more contrast */
+    margin-bottom: 20px;
+}
+
+/* 🔍 Search Bar */
+.search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    width: 60%;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #ecf0f1; /* Lighter background for input */
+}
+
+/* 🟢 Button Styling */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* 📝 Transaction Form */
+.transaction-form-container {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto 30px;
+    border: 1px solid #bdc3c7; /* Light border to define the container */
+}
+
+.transaction-form-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #2c3e50; /* Dark color for header */
+}
+
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.transaction-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #ecf0f1; /* Light background for inputs */
+}
+
+.transaction-form button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.transaction-form button:hover {
+    background-color: #2980b9;
+}
+
+/* 📜 Transaction List */
+.dashboard-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.dashboard-card h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #2c3e50; /* Consistent dark color for title */
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1em;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    border: 1px solid #ddd; /* Border for the table */
+}
+
+.transaction-table th, .transaction-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.transaction-table th {
+    background: #2c3e50;
+    color: white;
+    text-transform: uppercase;
+}
+
+.transaction-table tr:hover {
+    background: #ecf0f1;
+}
+
+/* 🛠️ Action Buttons */
+.transaction-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.update-button, .delete-button, .download-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-align: center;
+    width: 80px;
+    transition: background 0.3s ease;
+}
+
+/* Update Button */
+.update-button {
+    background-color: #27ae60; /* Green */
+    color: white;
+}
+
+.update-button:hover {
+    background-color: #2ecc71; /* Lighter green */
+}
+
+/* Delete Button */
+.delete-button {
+    background-color: #e74c3c; /* Red */
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: #c0392b; /* Darker red */
+}
+
+/* Download Button */
+.download-button {
+    background-color: #f39c12; /* Orange */
+    color: white;
+}
+
+.download-button:hover {
+    background-color: #e67e22; /* Darker orange */
+}
+
+/* 📱 Mobile Responsiveness */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 15px;
+    }
+
+    .dashboard-header {
+        font-size: 1.8em;
+    }
+
+    .dashboard-card,
+    .transaction-form-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .transaction-table th, .transaction-table td {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .transaction-actions {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .search-bar {
+        width: 80%;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
