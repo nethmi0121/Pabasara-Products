@@ -1,0 +1,134 @@
+/* Cart.css */
+.cart-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color:#fff9c4;;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .user-details {
+    background-color: #e0f7fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .user-details h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .user-details p {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  table th, table td {
+    padding: 12px;
+    text-align: center;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+  }
+  
+  table th {
+    background-color: #00796b;
+    color: white;
+  }
+  
+  table td {
+    background-color: #fafafa;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
+  
+  .clear-cart {
+    background-color: #f44336;
+    color: white;
+    margin-top: 10px;
+    width: 100%;
+    font-weight: bold;
+  }
+  
+  .clear-cart:hover {
+    background-color: #d32f2f;
+  }
+  
+  .checkout {
+    background-color: #00796b;
+    color: white;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .checkout:hover {
+    background-color: #004d40;
+  }
+  
+  .cart-summary {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cart-summary p {
+    margin: 5px 0;
+  }
+  
+  .cart-summary p:first-child {
+    font-weight: bold;
+  }
+  
+  .cart-summary p:last-child {
+    font-size: 1.5rem;
+    color: #00796b;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .cart-container {
+      width: 95%;
+    }
+  
+    table th, table td {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  
+    button {
+      font-size: 0.9rem;
+    }
+  }
+  
