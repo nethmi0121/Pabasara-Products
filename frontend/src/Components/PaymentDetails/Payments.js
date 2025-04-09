@@ -57,28 +57,28 @@ function Payments() {
   const generatePDF = () => {
     const doc = new jsPDF();
     const logoImg = new Image();
-    logoImg.src = `${process.env.PUBLIC_URL}/Logo.jpg`; // ✅ Your logo path
+    logoImg.src = `${process.env.PUBLIC_URL}/Logo.jpg`; 
 
     logoImg.onload = () => {
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
 
-       // Add border frame
+      
        doc.setDrawColor(0);
        doc.setLineWidth(0.8);
        doc.roundedRect(10, 10, pageWidth - 20, pageHeight - 20, 5, 5);
  
 
-      // Add logo to the top left corner
-     doc.addImage(logoImg, 'JPG', 12, 12, 30, 30);  // X: 10, Y: 10 (top left corner)
+    
+     doc.addImage(logoImg, 'JPG', 12, 12, 30, 30);  
 
 
-      // Title under logo
+
       doc.setFontSize(18);
       doc.setFont("helvetica", "bold");
       doc.text("Payment Report", pageWidth / 2, 45, { align: 'center' });
 
-      // Table headings
+
       const columns = ["User ID", "Amount", "Currency", "Status", "Payment ID", "Date"];
       const rows = filteredPayments.map(payment => [
         payment.userId,
@@ -89,7 +89,6 @@ function Payments() {
         new Date(payment.createdAt).toLocaleString()
       ]);
 
-      // Table with styling
       autoTable(doc, {
         head: [columns],
         body: rows,
@@ -105,7 +104,7 @@ function Payments() {
         }
       });
 
-      // Footer
+      
       const dateStr = new Date().toLocaleString();
       doc.setFontSize(10);
       doc.setTextColor(100);
