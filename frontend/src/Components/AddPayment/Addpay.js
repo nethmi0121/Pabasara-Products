@@ -35,10 +35,34 @@ function Addpay({ onPaymentAdded }) {
     return number.length === 16 && /^[0-9]+$/.test(number); 
   };
 
-  // Validate expiry date 
-  const validateExpiryDate = (expiry) => {
-    return /^([0-9]{2})\/([0-9]{2})$/.test(expiry);
-  };
+// Validate expiry date: checks format MM/YY and if it's a future date
+const validateExpiryDate = (expiry) => {
+  const formatRegex = /^([0-9]{2})\/([0-9]{2})$/;
+
+  // 1. Check format
+  if (!formatRegex.test(expiry)) {
+    return { valid: false, message: "Expiry date must be in MM/YY format." };
+  }
+
+  const [inputMonth, inputYear] = expiry.split('/').map(Number);
+
+  // 2. Check month range
+  if (inputMonth < 1 || inputMonth > 12) {
+    return { valid: false, message: "Invalid month in expiry date." };
+  }
+
+  // 3. Check if date is in the future
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear() % 100;
+
+  if (inputYear > currentYear || (inputYear === currentYear && inputMonth >= currentMonth)) {
+    return { valid: true };
+  } else {
+    return { valid: false, message: "Expiry date must be in the future." };
+  }
+};
+
 
   // Validate CVV (3-digit number)
   const validateCVV = (cvv) => {

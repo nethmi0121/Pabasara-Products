@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Nav from '../Nav/Nav';
 import axios from 'axios';
 import { jsPDF } from "jspdf";
-import autoTable from 'jspdf-autotable'; 
+import autoTable from 'jspdf-autotable';
 import './Payments.css';
 
 const URL = "http://localhost:3000/payments/get-all";
-const DELETE_URL = "http://localhost:3000/payments/delete"; 
+const DELETE_URL = "http://localhost:3000/payments/delete";
 
-// Fetch payments data
 const fetchHandler = async () => {
   try {
     const response = await axios.get(URL);
@@ -46,7 +45,6 @@ function Payments() {
     setSearchQuery(e.target.value);
   };
 
-  // Filter payments based on search query 
   const filteredPayments = payments.filter(payment =>
     payment.userId.toLowerCase().includes(searchQuery.toLowerCase()) ||
     payment.paymentIntentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -56,36 +54,71 @@ function Payments() {
     new Date(payment.createdAt).toLocaleString().toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  //report genarate
   const generatePDF = () => {
     const doc = new jsPDF();
-    doc.text("Payment Report", 14, 10);
+    const logoImg = new Image();
+    logoImg.src = `${process.env.PUBLIC_URL}/Logo.jpg`; // ✅ Your logo path
 
-    const columns = ["User ID", "Amount", "Currency", "Status", "Payment ID", "Date"];
-    const rows = filteredPayments.map(payment => [
-      payment.userId,
-      payment.amount,
-      payment.currency,
-      payment.status,
-      payment.paymentIntentId,
-      new Date(payment.createdAt).toLocaleString()
-    ]);
+    logoImg.onload = () => {
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
 
-    autoTable(doc, {
-      head: [columns],
-      body: rows,
-      startY: 20
-    });
+       // Add border frame
+       doc.setDrawColor(0);
+       doc.setLineWidth(0.8);
+       doc.roundedRect(10, 10, pageWidth - 20, pageHeight - 20, 5, 5);
+ 
 
-    doc.save("Payment_Report.pdf");
+      // Add logo to the top left corner
+     doc.addImage(logoImg, 'JPG', 12, 12, 30, 30);  // X: 10, Y: 10 (top left corner)
+
+
+      // Title under logo
+      doc.setFontSize(18);
+      doc.setFont("helvetica", "bold");
+      doc.text("Payment Report", pageWidth / 2, 45, { align: 'center' });
+
+      // Table headings
+      const columns = ["User ID", "Amount", "Currency", "Status", "Payment ID", "Date"];
+      const rows = filteredPayments.map(payment => [
+        payment.userId,
+        payment.amount,
+        payment.currency,
+        payment.status,
+        payment.paymentIntentId,
+        new Date(payment.createdAt).toLocaleString()
+      ]);
+
+      // Table with styling
+      autoTable(doc, {
+        head: [columns],
+        body: rows,
+        startY: 55,
+        theme: 'grid',
+        headStyles: {
+          fillColor: [15, 167, 134],
+          textColor: 255,
+          fontStyle: 'bold'
+        },
+        bodyStyles: {
+          fontSize: 10
+        }
+      });
+
+      // Footer
+      const dateStr = new Date().toLocaleString();
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text(`Generated on: ${dateStr}`, 14, pageHeight - 10);
+      doc.text(`Page 1`, pageWidth - 30, pageHeight - 10);
+
+      doc.save("Payment_Report.pdf");
+    };
   };
 
   const handleDelete = async (paymentId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this payment?');
-
-    if (!confirmDelete) {
-      return;  
-    }
+    if (!confirmDelete) return;
 
     try {
       const response = await axios.delete(`${DELETE_URL}/${paymentId}`);
