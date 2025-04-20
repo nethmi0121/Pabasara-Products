@@ -72,12 +72,15 @@ function Payments() {
     
      doc.addImage(logoImg, 'JPG', 12, 12, 30, 30);  
 
-
-
-      doc.setFontSize(18);
-      doc.setFont("helvetica", "bold");
-      doc.text("Payment Report", pageWidth / 2, 45, { align: 'center' });
-
+     doc.setFontSize(24);
+     doc.setFont("helvetica", "bold");
+     doc.setTextColor(15, 167, 134);
+     doc.text("Pabasara Products", pageWidth / 2, 25, { align: 'center' });
+     
+     doc.setFontSize(18);
+     doc.setTextColor(0, 0, 0);  // Default black color for Payment Report
+     doc.text("Payment Report", pageWidth / 2, 45, { align: 'center' });
+     
 
       const columns = ["User ID", "Amount", "Currency", "Status", "Payment ID", "Date"];
       const rows = filteredPayments.map(payment => [
@@ -95,7 +98,7 @@ function Payments() {
         startY: 55,
         theme: 'grid',
         headStyles: {
-          fillColor: [15, 167, 134],
+          fillColor: [0, 123, 255],
           textColor: 255,
           fontStyle: 'bold'
         },
@@ -111,7 +114,7 @@ function Payments() {
       doc.text(`Generated on: ${dateStr}`, 14, pageHeight - 10);
       doc.text(`Page 1`, pageWidth - 30, pageHeight - 10);
 
-      doc.save("Payment_Report.pdf");
+      doc.save("Pay_Report.pdf");
     };
   };
 

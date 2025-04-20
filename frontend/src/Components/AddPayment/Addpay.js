@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Addpay.css';
 
-
 const ADD_PAYMENT_URL = "http://localhost:3000/payments/create";
 
 function Addpay({ onPaymentAdded }) {
@@ -14,67 +13,60 @@ function Addpay({ onPaymentAdded }) {
   const [currency, setCurrency] = useState('USD');
   const [status, setStatus] = useState('Successful');
   const [paymentIntentId, setPaymentIntentId] = useState('');
-  const [userId, setUserId] = useState(''); // Initialize userId state
+  const [userId, setUserId] = useState(''); 
+  const [cardHolderName, setCardHolderName] = useState('');  // New state for card holder name
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [formErrors, setFormErrors] = useState({}); // For storing form field errors
-  const [successMessage, setSuccessMessage] = useState(''); // New state for success message
+  const [formErrors, setFormErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [paymentMethod, setPaymentMethod] = useState('creditCard'); 
 
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const generatedUserId = `user_${Math.floor(Math.random() * 1000000)}`; 
     setUserId(generatedUserId);
   }, []); 
 
-  // Validate card number 
+  // Validate card number
   const validateCardNumber = (number) => {
     return number.length === 16 && /^[0-9]+$/.test(number); 
   };
 
-// Validate expiry date: checks format MM/YY and if it's a future date
-const validateExpiryDate = (expiry) => {
-  const formatRegex = /^([0-9]{2})\/([0-9]{2})$/;
+  const validateExpiryDate = (expiry) => {
+    const formatRegex = /^([0-9]{2})\/([0-9]{2})$/;
+    if (!formatRegex.test(expiry)) {
+      return { valid: false, message: "Expiry date must be in MM/YY format." };
+    }
+    const [inputMonth, inputYear] = expiry.split('/').map(Number);
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear() % 100;
 
-  // 1. Check format
-  if (!formatRegex.test(expiry)) {
-    return { valid: false, message: "Expiry date must be in MM/YY format." };
-  }
+    if (inputMonth < 1 || inputMonth > 12) {
+      return { valid: false, message: "Invalid month in expiry date." };
+    }
+    if (inputYear > currentYear || (inputYear === currentYear && inputMonth >= currentMonth)) {
+      return { valid: true };
+    } else {
+      return { valid: false, message: "Expiry date must be in the future." };
+    }
+  };
 
-  const [inputMonth, inputYear] = expiry.split('/').map(Number);
-
-  // 2. Check month range
-  if (inputMonth < 1 || inputMonth > 12) {
-    return { valid: false, message: "Invalid month in expiry date." };
-  }
-
-  // 3. Check if date is in the future
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1;
-  const currentYear = currentDate.getFullYear() % 100;
-
-  if (inputYear > currentYear || (inputYear === currentYear && inputMonth >= currentMonth)) {
-    return { valid: true };
-  } else {
-    return { valid: false, message: "Expiry date must be in the future." };
-  }
-};
-
-
-  // Validate CVV (3-digit number)
   const validateCVV = (cvv) => {
     return cvv.length === 3 && /^[0-9]+$/.test(cvv);
   };
 
-  // Validate amount
   const validateAmount = (amount) => {
     return amount > 0;
   };
 
-  // Validate payment form
+  // Validate the cardholder name (optional validation)
+  const validateCardHolderName = (name) => {
+    return name.length > 0;  // Check if the name is not empty
+  };
+
   const validateForm = () => {
     const errors = {};
     if (!validateCardNumber(cardNumber)) errors.cardNumber = 'Card number must be 16 digits.';
@@ -83,6 +75,7 @@ const validateExpiryDate = (expiry) => {
     if (!validateAmount(amount)) errors.amount = 'Amount must be greater than 0.';
     if (!currency) errors.currency = 'Currency is required.';
     if (!paymentIntentId) errors.paymentIntentId = 'Payment Intent ID is required.';
+    if (!validateCardHolderName(cardHolderName)) errors.cardHolderName = 'Cardholder name is required.';  // Add validation for cardholder name
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0; 
@@ -91,7 +84,6 @@ const validateExpiryDate = (expiry) => {
   const handleAddPayment = async (e) => {
     e.preventDefault();
 
-    // Validate the form
     if (!validateForm()) {
       setError('Please fix the form errors.');
       return;
@@ -99,7 +91,7 @@ const validateExpiryDate = (expiry) => {
 
     const paymentData = {
       userId, 
-      cardDetails: { cardNumber, cardExpiry, cardCVV },
+      cardDetails: { cardNumber, cardExpiry, cardCVV, cardHolderName },  // Include card holder name
       amount,
       currency,
       status,
@@ -111,30 +103,22 @@ const validateExpiryDate = (expiry) => {
       setLoading(true);
       const response = await axios.post(ADD_PAYMENT_URL, paymentData);
 
-      // Handle successful response
       if (response.data.success) {
-       
         onPaymentAdded(response.data);
-
         setSuccessMessage('Payment added successfully!');
-
-   
         setIsModalOpen(true);
-
-        // Reset form
         setCardNumber('');
         setCardExpiry('');
         setCardCVV('');
         setAmount('');
         setPaymentIntentId('');
+        setCardHolderName('');  // Reset card holder name
         setPaymentMethod('creditCard'); 
         setError(null);
         setFormErrors({});
 
-        
         setTimeout(() => setSuccessMessage(''), 3000);
 
-        // Navigate to the Payments page after a successful payment
         navigate("/mainpaymentdetails");
       } else {
         setError(response.data.message || 'Failed to add payment.');
@@ -153,12 +137,9 @@ const validateExpiryDate = (expiry) => {
   return (
     <div className="payment-form-container">
       <h1>Add Payment Details</h1>
-
-      {/* Add Payment Form */}
       <form onSubmit={handleAddPayment} className="payment-form">
         <table className="payment-form-table">
           <tbody>
-          
             <tr>
               <td><label htmlFor="paymentMethod">Payment Method</label></td>
               <td>
@@ -172,8 +153,20 @@ const validateExpiryDate = (expiry) => {
                 </select>
               </td>
             </tr>
-
-      
+            <tr>
+              <td><label htmlFor="cardHolderName">Cardholder Name</label></td>
+              <td>
+                <input
+                  type="text"
+                  id="cardHolderName"
+                  placeholder="Cardholder Name"
+                  value={cardHolderName}
+                  onChange={(e) => setCardHolderName(e.target.value)}
+                  required
+                />
+                {formErrors.cardHolderName && <p className="error-text">{formErrors.cardHolderName}</p>}
+              </td>
+            </tr>
             <tr>
               <td><label htmlFor="cardNumber">Card Number</label></td>
               <td>
@@ -265,7 +258,6 @@ const validateExpiryDate = (expiry) => {
       {error && <p className="error-text">{error}</p>}
       {successMessage && <p className="success-text">{successMessage}</p>}
 
-    
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
@@ -275,9 +267,7 @@ const validateExpiryDate = (expiry) => {
         </div>
       )}
     </div>
-    
   );
-
 }
 
 export default Addpay;
