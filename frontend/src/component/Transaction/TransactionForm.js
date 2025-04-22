@@ -10,34 +10,38 @@ function TransactionForm({ setTransactions }) {
     });
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+
+        if (name === "total_income" || name === "total_expenses") {
+            // Allow only numbers and a single decimal point
+            if (/^\d*\.?\d*$/.test(value) || value === "") {
+                setFormData({ ...formData, [name]: value });
+            }
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validate Total Income and Total Expenses to ensure they're not negative
         if (parseFloat(formData.total_income) < 0 || parseFloat(formData.total_expenses) < 0) {
             alert("Total Income and Total Expenses cannot be negative.");
             return;
         }
 
         try {
-            // Send the POST request to add the transaction
             await axios.post("http://localhost:5000/Transactions", formData);
 
-            // Fetch the updated transactions list and update state
             const updatedTransactions = await axios.get("http://localhost:5000/Transactions");
             setTransactions(updatedTransactions.data);
 
-            // Reset form fields
             setFormData({
                 income_source: "",
                 total_income: "",
                 expense_type: "",
                 total_expenses: "",
             });
-
         } catch (err) {
             console.error("Error submitting transaction:", err);
         }
@@ -56,13 +60,12 @@ function TransactionForm({ setTransactions }) {
                     required
                 />
                 <input
-                    type="number"
+                    type="text"
                     name="total_income"
                     placeholder="Total Income"
                     value={formData.total_income}
                     onChange={handleChange}
                     required
-                    min="0"  // Prevent negative values
                 />
                 <input
                     type="text"
@@ -73,13 +76,12 @@ function TransactionForm({ setTransactions }) {
                     required
                 />
                 <input
-                    type="number"
+                    type="text"
                     name="total_expenses"
                     placeholder="Total Expenses"
                     value={formData.total_expenses}
                     onChange={handleChange}
                     required
-                    min="0"  // Prevent negative values
                 />
                 <button className="button" type="submit">Add Transaction</button>
             </form>

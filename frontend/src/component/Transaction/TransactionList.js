@@ -37,6 +37,10 @@ function TransactionList({ transactions, setTransactions }) {
     }, [search, transactions]);
 
     const handleDelete = async (id) => {
+        const isConfirmed = window.confirm("Are you sure you want to delete this transaction?");
+        
+        if (!isConfirmed) return;
+    
         try {
             await axios.delete(`http://localhost:5000/Transactions/${id}`);
             const response = await axios.get("http://localhost:5000/Transactions");
@@ -45,28 +49,44 @@ function TransactionList({ transactions, setTransactions }) {
             console.error("Error deleting transaction:", error);
         }
     };
+    
 
     const handleDownloadPDF = (transaction) => {
         const doc = new jsPDF();
-        doc.text("Transaction Details", 14, 20);
     
-        autoTable(doc, {  // <-- Use autoTable correctly
-            startY: 30,
+        const reportDate = new Date().toLocaleDateString();
+    
+        doc.setDrawColor(0); 
+        doc.setLineWidth(1.5);
+        doc.rect(10, 15, 190, 270); 
+    
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        doc.text("Pabasara Products", 105, 25, { align: "center" }); // Moved down
+    
+        doc.setFontSize(14);
+        doc.text(`Transaction Report - ${reportDate}`, 105, 35, { align: "center" }); // Moved down
+    
+        autoTable(doc, {
+            startY: 45, 
+            theme: "grid",
+            headStyles: { fillColor: [52, 152, 219], textColor: 255 }, // Blue header with white text
+            alternateRowStyles: { fillColor: [230, 247, 255] }, // Light blue alternate row
             head: [["Field", "Value"]],
             body: [
-                ["Date", new Date(transaction.date).toLocaleDateString()],
                 ["Income Source", transaction.income_source],
-                ["Total Income (LKR)", `₨ ${transaction.total_income.toLocaleString()}`], // Changed currency to LKR
+                ["Total Income (LKR)", `₨ ${transaction.total_income.toLocaleString()}`],
                 ["Expense Type", transaction.expense_type],
-                ["Total Expenses (LKR)", `₨ ${transaction.total_expenses.toLocaleString()}`], // Changed currency to LKR
-                ["Profit (LKR)", `₨ ${transaction.profit.toLocaleString()}`], // Changed currency to LKR
+                ["Total Expenses (LKR)", `₨ ${transaction.total_expenses.toLocaleString()}`],
+                ["Profit (LKR)", `₨ ${transaction.profit.toLocaleString()}`],
             ],
+            margin: { left: 15, right: 15 }, // Aligning inside frame
         });
     
-        doc.save(`Transaction_${transaction._id}.pdf`);
+        doc.save(`Transaction_Report_${reportDate}.pdf`);
     };
     
-
+    
     return (
         <div className="dashboard-card">
             <h2>Transaction List</h2>
@@ -86,10 +106,10 @@ function TransactionList({ transactions, setTransactions }) {
                     <tr>
                         <th>Date</th>
                         <th>Income Source</th>
-                        <th>Total Income (LKR)</th> {/* Changed currency to LKR */}
+                        <th>Total Income (LKR)</th> 
                         <th>Expense Type</th>
-                        <th>Total Expenses (LKR)</th> {/* Changed currency to LKR */}
-                        <th>Profit (LKR)</th> {/* Changed currency to LKR */}
+                        <th>Total Expenses (LKR)</th> 
+                        <th>Profit (LKR)</th> 
                         <th>Actions</th>
                     </tr>
                 </thead>

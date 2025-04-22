@@ -1,0 +1,55 @@
+.balancesheet-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.balancesheet-header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.balancesheet-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.balancesheet-table th,
+.balancesheet-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.balancesheet-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.entry-table input {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.balancesheet-form {
+    margin-bottom: 30px;
+}
+
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}

@@ -20,7 +20,13 @@ function UpdateTransaction() {
     }, [id]);
 
     const handleChange = (e) => {
-        setTransaction({ ...transaction, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        
+        if ((name === "total_income" || name === "total_expenses") && (!/^\d*\.?\d*$/.test(value) || value < 0)) {
+            return; 
+        }
+        
+        setTransaction({ ...transaction, [name]: value });
     };
 
     const handleSubmit = async (e) => {
@@ -39,9 +45,9 @@ function UpdateTransaction() {
                 <h2>Update Transaction</h2>
                 <form className="update-form" onSubmit={handleSubmit}>
                     <input type="text" name="income_source" placeholder="Income Source" value={transaction.income_source} onChange={handleChange} required />
-                    <input type="number" name="total_income" placeholder="Income $" value={transaction.total_income} onChange={handleChange} required />
+                    <input type="text" name="total_income" placeholder="Income $" value={transaction.total_income} onChange={handleChange} required />
                     <input type="text" name="expense_type" placeholder="Expense Type" value={transaction.expense_type} onChange={handleChange} required />
-                    <input type="number" name="total_expenses" placeholder="Expense $" value={transaction.total_expenses} onChange={handleChange} required />
+                    <input type="text" name="total_expenses" placeholder="Expense $" value={transaction.total_expenses} onChange={handleChange} required />
                     <button className="update-button" type="submit">Update</button>
                 </form>
             </div>
