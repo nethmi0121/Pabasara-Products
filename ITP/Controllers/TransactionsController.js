@@ -1,6 +1,6 @@
 const Transaction = require('../Model/TransactionsModel');
 
-//Create a new transaction
+// @desc    Create a new transaction
 exports.createTransaction = async (req, res) => {
     try {
         const { income_source, total_income, expense_type, total_expenses } = req.body;
@@ -19,7 +19,7 @@ exports.createTransaction = async (req, res) => {
     }
 };
 
-//Get all transactions
+// @desc    Get all transactions
 exports.getTransactions = async (req, res) => {
     try {
         const transactions = await Transaction.find();
@@ -29,7 +29,7 @@ exports.getTransactions = async (req, res) => {
     }
 };
 
-//Get a single transaction by ID
+// @desc    Get a single transaction by ID
 exports.getTransactionById = async (req, res) => {
     try {
         const transaction = await Transaction.findById(req.params.id);
@@ -41,7 +41,7 @@ exports.getTransactionById = async (req, res) => {
     }
 };
 
-//Update a transaction
+// @desc    Update a transaction
 exports.updateTransaction = async (req, res) => {
     try {
         const updatedTransaction = await Transaction.findByIdAndUpdate(
@@ -58,7 +58,7 @@ exports.updateTransaction = async (req, res) => {
     }
 };
 
-//Delete a transaction
+// @desc    Delete a transaction
 exports.deleteTransaction = async (req, res) => {
     try {
         const transaction = await Transaction.findByIdAndDelete(req.params.id);
