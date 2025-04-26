@@ -1,0 +1,33 @@
+.custom-btn-yellow {
+  background-color: #ffcc00;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.custom-btn-yellow:hover {
+  background-color: #e6b800;
+  color: white;
+}
+
+.custom-btn-orange {
+  background-color: #ff6600;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.custom-btn-orange:hover {
+  background-color: #cc5200;
+  color: white;
+}

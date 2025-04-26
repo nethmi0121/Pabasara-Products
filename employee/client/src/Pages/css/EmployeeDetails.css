@@ -1,0 +1,113 @@
+/* General Styles */
+.employee-home {
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  background-color: #fffbe6; /* light yellow background */
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  background: linear-gradient(to right, #ffcc00, #ff6600); /* yellow to orange */
+  color: white;
+  padding: 50px 20px;
+  border-radius: 10px;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.cta-button {
+  background-color: white;
+  color: #ff6600; /* orange text */
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cta-button:hover {
+  background-color: #fff0cc; /* light yellow hover */
+}
+
+/* Search Bar */
+.search-bar {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.search-bar input {
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ffcc00;
+  border-radius: 5px;
+}
+
+/* Employee List */
+.items-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.item-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(255, 204, 0, 0.3); /* yellow shadow */
+  text-align: center;
+  width: 300px;
+}
+
+.item-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #ff9900;
+}
+
+.item-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* View Details Button */
+.view-details {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #ff6600;
+  color: white;
+  padding: 8px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.view-details:hover {
+  background-color: #e65c00;
+}
+
+/* Call-to-Action Section */
+.cta-section {
+  text-align: center;
+  margin-top: 40px;
+  padding: 30px;
+  background-color: #ff9900; /* orange */
+  color: white;
+  border-radius: 10px;
+}
+
+.cta-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}

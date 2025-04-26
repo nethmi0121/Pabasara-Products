@@ -1,0 +1,10 @@
+.payroll-slip {
+    font-family: 'Segoe UI', sans-serif;
+    border-left: 6px solid #0d6efd;
+    transition: all 0.3s ease-in-out;
+  }
+  .payroll-slip:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+  }
+  
