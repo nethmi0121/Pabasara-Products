@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import './header.css';  // Ensure this points to where your CSS is stored
+import './header.css';
 
 export default function Header() {
-  const { currentUser } = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.user?.currentUser);
+
   return (
     <div className="nav"> 
       <div className='navbardetails'>
@@ -14,7 +15,7 @@ export default function Header() {
           <Link to=''><li>About</li></Link>
           <Link to='/profile'>
             {currentUser ? (
-              <img src={currentUser.profilePicture} alt='Profile' className='h-7 w-7 rounded-full object-cover'></img>
+              <img src={currentUser.profilePicture} alt='Profile' className='h-7 w-7 rounded-full object-cover' />
             ) : (
               <li>Sign In</li>
             )}
