@@ -3,11 +3,26 @@ import axios from 'axios';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
 import { 
-  FaShoppingCart, FaHome, FaEnvelope, FaPhone, 
-  FaFacebook, FaTwitter, FaInstagram, FaUser,
-  FaSearch, FaHeart, FaBell, FaBox, FaInfoCircle, 
-  FaCreditCard, FaTruck, FaExchangeAlt, FaQuestionCircle,
-  FaTrash, FaFilePdf, FaMoneyBillWave, FaWhatsapp
+  FaShoppingCart, 
+  FaUser, 
+  FaPhone, 
+  FaEnvelope,
+  FaBox,
+  FaInfoCircle,
+  FaQuestionCircle,
+  FaTruck,
+  FaExchangeAlt,
+  FaFacebook,
+  FaInstagram,
+  FaWhatsapp,
+  FaStar,
+  FaArrowLeft,
+  FaSearch,
+  FaHeart,
+  FaBell,
+  FaTrash, 
+  FaFilePdf, 
+  FaMoneyBillWave
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import './Payments.css';
@@ -154,16 +169,118 @@ function Payments() {
     return (
       <div className="payments-page">
         <header className="main-header">
-          {/* Header content same as in the return below */}
+          <div className="top-bar">
+            <div className="container">
+              <div className="welcome-message">Welcome to Pabasara Shop!</div>
+              <div className="top-links">
+                <a href="tel:+94761234567"><FaPhone /> +94 76 123 4567</a>
+                <a href="mailto:support@pabasarashop.com"><FaEnvelope /> support@pabasarashop.com</a>
+              </div>
+            </div>
+          </div>
+          
+          <div className="main-nav">
+            <div className="container">
+              <div className="logo-container" onClick={() => navigate('/')}>
+                <FaShoppingCart className="logo-icon" />
+                <h1 className="logo-text">Pabasara<span>Products</span></h1>
+              </div>
+              
+              <div className="search-bar">
+                <input type="text" placeholder="Search products..." />
+                <button className="search-btn"><FaSearch /></button>
+              </div>
+              
+              <div className="header-icons">
+                <button className="icon-btn" onClick={() => navigate('/wishlist')}>
+                  <FaHeart />
+                  <span className="badge">3</span>
+                </button>
+                <button className="icon-btn" onClick={() => navigate('/notifications')}>
+                  <FaBell />
+                  <span className="badge">5</span>
+                </button>
+                <button className="icon-btn account-btn" onClick={() => navigate('/account')}>
+                  <FaUser />
+                  <span>My Account</span>
+                </button>
+                <button className="cart-btn" onClick={() => navigate('/cart')}>
+                  <FaShoppingCart />
+                  <span className="cart-count">0</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </header>
         <div className="payments-container">
           <div className="payments-content">
             <h1 className="payments-title">Payment Details</h1>
-            <div className="loading-spinner"></div>
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <p>Loading payment details...</p>
+            </div>
           </div>
         </div>
         <footer className="main-footer">
-          {/* Footer content same as in the return below */}
+          <div className="footer-container">
+            <div className="footer-section">
+              <h3 className="footer-title">Shop Categories</h3>
+              <ul className="footer-links">
+                <li><a href="/products"><FaBox /> All Products</a></li>
+                <li><a href="/new-arrivals"><FaBox /> New Arrivals</a></li>
+                <li><a href="/best-sellers"><FaBox /> Best Sellers</a></li>
+                <li><a href="/deals"><FaBox /> Special Offers</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Customer Support</h3>
+              <ul className="footer-links">
+                <li><a href="/contact"><FaInfoCircle /> Contact Us</a></li>
+                <li><a href="/faq"><FaQuestionCircle /> FAQ</a></li>
+                <li><a href="/shipping"><FaTruck /> Shipping Info</a></li>
+                <li><a href="/returns"><FaExchangeAlt /> Returns Policy</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Company Info</h3>
+              <ul className="footer-links">
+                <li><a href="/about"><FaInfoCircle /> About Us</a></li>
+                <li><a href="/privacy"><FaInfoCircle /> Privacy Policy</a></li>
+                <li><a href="/terms"><FaInfoCircle /> Terms & Conditions</a></li>
+                <li><a href="/blog"><FaInfoCircle /> Our Blog</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Stay Connected</h3>
+              <div className="social-links">
+                <a href="#" aria-label="Facebook"><FaFacebook /></a>
+                <a href="#" aria-label="Instagram"><FaInstagram /></a>
+                <a href="#" aria-label="WhatsApp"><FaWhatsapp /></a>
+              </div>
+              <div className="newsletter">
+                <h4>Subscribe for Updates</h4>
+                <div className="newsletter-form">
+                  <input 
+                    type="email" 
+                    placeholder="Your email address" 
+                    aria-label="Email for newsletter"
+                  />
+                  <button>Subscribe</button>
+                </div>
+              </div>
+              <div className="footer-contact">
+                <p><FaPhone /> +94 76 123 4567</p>
+                <p><FaEnvelope /> support@pabasarashop.com</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="footer-bottom">
+            <p>&copy; {new Date().getFullYear()} Pabasara Sweet House. All Rights Reserved.</p>
+          </div>
         </footer>
       </div>
     );
@@ -173,7 +290,48 @@ function Payments() {
     return (
       <div className="payments-page">
         <header className="main-header">
-          {/* Header content same as in the return below */}
+          <div className="top-bar">
+            <div className="container">
+              <div className="welcome-message">Welcome to Pabasara Shop!</div>
+              <div className="top-links">
+                <a href="tel:+94761234567"><FaPhone /> +94 76 123 4567</a>
+                <a href="mailto:support@pabasarashop.com"><FaEnvelope /> support@pabasarashop.com</a>
+              </div>
+            </div>
+          </div>
+          
+          <div className="main-nav">
+            <div className="container">
+              <div className="logo-container" onClick={() => navigate('/')}>
+                <FaShoppingCart className="logo-icon" />
+                <h1 className="logo-text">Pabasara<span>Products</span></h1>
+              </div>
+              
+              <div className="search-bar">
+                <input type="text" placeholder="Search products..." />
+                <button className="search-btn"><FaSearch /></button>
+              </div>
+              
+              <div className="header-icons">
+                <button className="icon-btn" onClick={() => navigate('/wishlist')}>
+                  <FaHeart />
+                  <span className="badge">3</span>
+                </button>
+                <button className="icon-btn" onClick={() => navigate('/notifications')}>
+                  <FaBell />
+                  <span className="badge">5</span>
+                </button>
+                <button className="icon-btn account-btn" onClick={() => navigate('/account')}>
+                  <FaUser />
+                  <span>My Account</span>
+                </button>
+                <button className="cart-btn" onClick={() => navigate('/cart')}>
+                  <FaShoppingCart />
+                  <span className="cart-count">0</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </header>
         <div className="payments-container">
           <div className="payments-content">
@@ -184,7 +342,65 @@ function Payments() {
           </div>
         </div>
         <footer className="main-footer">
-          {/* Footer content same as in the return below */}
+          <div className="footer-container">
+            <div className="footer-section">
+              <h3 className="footer-title">Shop Categories</h3>
+              <ul className="footer-links">
+                <li><a href="/products"><FaBox /> All Products</a></li>
+                <li><a href="/new-arrivals"><FaBox /> New Arrivals</a></li>
+                <li><a href="/best-sellers"><FaBox /> Best Sellers</a></li>
+                <li><a href="/deals"><FaBox /> Special Offers</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Customer Support</h3>
+              <ul className="footer-links">
+                <li><a href="/contact"><FaInfoCircle /> Contact Us</a></li>
+                <li><a href="/faq"><FaQuestionCircle /> FAQ</a></li>
+                <li><a href="/shipping"><FaTruck /> Shipping Info</a></li>
+                <li><a href="/returns"><FaExchangeAlt /> Returns Policy</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Company Info</h3>
+              <ul className="footer-links">
+                <li><a href="/about"><FaInfoCircle /> About Us</a></li>
+                <li><a href="/privacy"><FaInfoCircle /> Privacy Policy</a></li>
+                <li><a href="/terms"><FaInfoCircle /> Terms & Conditions</a></li>
+                <li><a href="/blog"><FaInfoCircle /> Our Blog</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Stay Connected</h3>
+              <div className="social-links">
+                <a href="#" aria-label="Facebook"><FaFacebook /></a>
+                <a href="#" aria-label="Instagram"><FaInstagram /></a>
+                <a href="#" aria-label="WhatsApp"><FaWhatsapp /></a>
+              </div>
+              <div className="newsletter">
+                <h4>Subscribe for Updates</h4>
+                <div className="newsletter-form">
+                  <input 
+                    type="email" 
+                    placeholder="Your email address" 
+                    aria-label="Email for newsletter"
+                  />
+                  <button>Subscribe</button>
+                </div>
+              </div>
+              <div className="footer-contact">
+                <p><FaPhone /> +94 76 123 4567</p>
+                <p><FaEnvelope /> support@pabasarashop.com</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="footer-bottom">
+            <p>&copy; {new Date().getFullYear()} Pabasara Sweet House. All Rights Reserved.</p>
+          </div>
         </footer>
       </div>
     );
@@ -197,8 +413,8 @@ function Payments() {
           <div className="container">
             <div className="welcome-message">Welcome to Pabasara Shop!</div>
             <div className="top-links">
-              <a href="#"><FaPhone /> +94 76 123 4567</a>
-              <a href="#"><FaEnvelope /> support@pabasarashop.com</a>
+              <a href="tel:+94761234567"><FaPhone /> +94 76 123 4567</a>
+              <a href="mailto:support@pabasarashop.com"><FaEnvelope /> support@pabasarashop.com</a>
             </div>
           </div>
         </div>
@@ -239,6 +455,10 @@ function Payments() {
 
       <div className="payments-container">
         <div className="payments-content">
+          <button onClick={() => navigate(-1)} className="back-button">
+            <FaArrowLeft /> Back to Dashboard
+          </button>
+
           <h1 className="payments-title">Payment Details</h1>
           
           <div className="search-report-container">
@@ -354,7 +574,6 @@ function Payments() {
             <h3 className="footer-title">Stay Connected</h3>
             <div className="social-links">
               <a href="#" aria-label="Facebook"><FaFacebook /></a>
-              <a href="#" aria-label="Twitter"><FaTwitter /></a>
               <a href="#" aria-label="Instagram"><FaInstagram /></a>
               <a href="#" aria-label="WhatsApp"><FaWhatsapp /></a>
             </div>
@@ -377,7 +596,7 @@ function Payments() {
         </div>
         
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Pabasara Shop. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Pabasara Sweet House. All Rights Reserved.</p>
         </div>
       </footer>
     </div>

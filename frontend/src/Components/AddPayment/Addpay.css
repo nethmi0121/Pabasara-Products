@@ -10,6 +10,7 @@
   --white: #ffffff;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   --footer-bg: #222;
+  --page-bg: linear-gradient(135deg, rgba(255,214,0,0.05) 0%, rgba(255,168,0,0.05) 100%);
 }
 
 /* Base Styles */
@@ -21,7 +22,7 @@
 }
 
 body {
-  background-color: #f8f9fa;
+  background: var(--page-bg);
   color: var(--dark-text);
   line-height: 1.6;
 }
