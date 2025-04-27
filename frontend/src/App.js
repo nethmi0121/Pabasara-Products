@@ -10,6 +10,7 @@ import UpdateBankBook from './component/Pages/UpdateBankBook';
 import PettyCash from './component/Pages/PettyCash';
 import UpdatePettyCash from './component/Pages/UpdatePettyCash';
 import AddPettyCash from './component/Pages/AddPettyCash';
+import Nav from './component/Nav/Nav';
 
 function App() {
     return (

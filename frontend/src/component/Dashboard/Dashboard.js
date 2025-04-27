@@ -4,6 +4,7 @@ import "../css/Dashboard.css";
 import TransactionForm from "../Transaction/TransactionForm";
 import TransactionList from "../Transaction/TransactionList";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../Nav/Nav";
 
 function Dashboard() {
     const [transactions, setTransactions] = useState([]);

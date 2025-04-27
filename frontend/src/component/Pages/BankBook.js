@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jsPDF } from "jspdf"; // Import jsPDF
 import autoTable from 'jspdf-autotable';
-import "../css/BankBook.css"; // Make sure CSS exists
+import "../css/BankBook.css";
+import logo from '../assests/logo.png'; // Make sure CSS exists
 
 function BankBook() {
     const [entries, setEntries] = useState([]);
@@ -30,20 +31,55 @@ function BankBook() {
     // Generate PDF for a single entry
     const generateSinglePDF = (entry) => {
         const doc = new jsPDF();
-        doc.text("Bank Book Entry", 20, 20);
-        autoTable(doc, {
-            startY: 30,
-            head: [["Field", "Value"]],
-            body: [
+    
+        // Add border
+        doc.setLineWidth(0.5);
+        doc.rect(5, 5, 200, 287);
+    
+        // Add logo
+        const img = new Image();
+        img.src = logo;
+        img.onload = function () {
+            doc.addImage(img, 'PNG', 10, 8, 30, 20);
+    
+            // Set title
+            doc.setFontSize(20);
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(0, 128, 0); // GREEN
+            doc.text("PabsaraProducts", 105, 20, { align: "center" });
+    
+            // Prepare table data
+            const tableData = [
                 ["Date", entry.date ? entry.date.slice(0, 10) : "-"],
                 ["Description", entry.description || "-"],
                 ["Deposit", entry.deposit || "-"],
                 ["Withdrawal", entry.withdrawal || "-"],
                 ["Balance", entry.balance || "-"],
-            ],
-            theme: "grid",
-        });
-        doc.save(`bankbook_entry_${entry._id}.pdf`);
+            ];
+    
+            // Create the table
+            autoTable(doc, {
+                startY: 35,
+                head: [["Field", "Value"]],
+                body: tableData,
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [0, 102, 204], // Nice BLUE
+                    textColor: [255, 255, 255], // White text
+                    halign: 'center',
+                    fontStyle: 'bold'
+                },
+                bodyStyles: {
+                    halign: 'center',
+                },
+                styles: {
+                    font: "helvetica",
+                    fontSize: 10
+                }
+            });
+    
+            doc.save(`bankbook_entry_${entry._id}.pdf`);
+        };
     };
     
 

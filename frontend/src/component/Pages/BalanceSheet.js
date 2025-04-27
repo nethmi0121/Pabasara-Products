@@ -4,6 +4,8 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import "../css/BalanceSheet.css";
+import logo from '../assests/logo.png';
+import Nav from "../Nav/Nav"; 
 
 function BalanceSheet() {
     const [entries, setEntries] = useState([]);
@@ -38,26 +40,63 @@ function BalanceSheet() {
 
     const handleDownloadFullSheet = () => {
         const doc = new jsPDF();
-        doc.text("Full Balance Sheet", 20, 10);
-
-        const tableData = entries.map(entry => ([
-            entry.income?.date?.slice(0, 10) || "-",
-            entry.income?.description || "-",
-            entry.income?.amount || "-",
-            entry.income?.total || "-",
-            entry.expense?.date?.slice(0, 10) || "-",
-            entry.expense?.description || "-",
-            entry.expense?.amount || "-",
-            entry.expense?.total || "-"
-        ]));
-
-        autoTable(doc, {
-            head: [["Income Date", "Income Desc", "Income Amount", "Income Total", "Expense Date", "Expense Desc", "Expense Amount", "Expense Total"]],
-            body: tableData
-        });
-
-        doc.save("Full_BalanceSheet.pdf");
+    
+        // Add border
+        doc.setLineWidth(0.5);
+        doc.rect(5, 5, 200, 287);
+    
+        const img = new Image();
+        img.src = logo;
+        img.onload = function () {
+            doc.addImage(img, 'PNG', 10, 8, 30, 20);
+    
+            // Set title
+            doc.setFontSize(20);
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(0, 128, 0); // GREEN color for title (RGB for green)
+            doc.text("PabsaraProducts", 105, 20, { align: "center" });
+    
+            // Prepare table data
+            const tableData = entries.map(entry => ([
+                entry.income?.date?.slice(0, 10) || "-",
+                entry.income?.description || "-",
+                entry.income?.amount || "-",
+                entry.income?.total || "-",
+                entry.expense?.date?.slice(0, 10) || "-",
+                entry.expense?.description || "-",
+                entry.expense?.amount || "-",
+                entry.expense?.total || "-"
+            ]));
+    
+            // Create the table
+            autoTable(doc, {
+                startY: 35,
+                head: [[
+                    "Income Date", "Income Desc", "Income Amount", "Income Total",
+                    "Expense Date", "Expense Desc", "Expense Amount", "Expense Total"
+                ]],
+                body: tableData,
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [0, 102, 204], // BLUE color for header (nice light blue)
+                    textColor: [255, 255, 255], // white text on blue
+                    halign: 'center',
+                    fontStyle: 'bold'
+                },
+                bodyStyles: {
+                    halign: 'center',
+                },
+                styles: {
+                    font: "helvetica",
+                    fontSize: 10
+                }
+            });
+    
+            doc.save("Full_BalanceSheet.pdf");
+        };
     };
+    
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -188,7 +227,7 @@ function BalanceSheet() {
             {/* Download Button */}
             <div style={{ marginBottom: '20px', marginTop: '20px' }}>
                 <button onClick={handleDownloadFullSheet} className="download-button">
-                    📄 Download Full Balance Sheet PDF
+                    📄 Download Balance Sheet PDF
                 </button>
             </div>
 
@@ -196,14 +235,14 @@ function BalanceSheet() {
             <table className="balancesheet-table">
                 <thead>
                     <tr>
-                        <th>Income Date</th>
-                        <th>Income Desc</th>
-                        <th>Income Amount</th>
-                        <th>Income Total</th>
-                        <th>Expense Date</th>
-                        <th>Expense Desc</th>
-                        <th>Expense Amount</th>
-                        <th>Expense Total</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Total</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

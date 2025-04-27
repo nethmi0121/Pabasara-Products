@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const {
-    createBankEntry,
-    getBankEntries,
-    getBankEntryById,
-    updateBankEntry,
-    deleteBankEntry
-} = require('../Controllers/BankBookController'); // Adjust the path if needed
+    createEntry,
+    getEntries,
+    getEntryById,
+    updateEntry,
+    deleteEntry
+} = require('../Controllers/BalanceSheetController'); // Correct path here!
+// Adjust the path if needed
 
 // Routes
-router.post('/', createBankEntry);
-router.get('/', getBankEntries);
-router.get('/:id', getBankEntryById);
-router.put('/:id', updateBankEntry);
-router.delete('/:id', deleteBankEntry);
+router.post('/', createEntry);
+router.get('/', getEntries);
+router.get('/:id', getEntryById);
+router.put('/:id', updateEntry);
+router.delete('/:id', deleteEntry);
 
 module.exports = router;

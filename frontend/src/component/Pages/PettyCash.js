@@ -4,6 +4,7 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import "../css/PettyCash.css";
+import logo from '../assests/logo.png';
 
 function PettyCash() {
     const [entries, setEntries] = useState([]);
@@ -31,37 +32,53 @@ function PettyCash() {
     const generateSinglePDF = (entry) => {
         const doc = new jsPDF();
     
-        doc.setFontSize(20);
-        doc.setTextColor(0, 128, 0); // Green color
-        doc.text("Pabasara Products", 20, 20);
+        // Draw border
+        doc.setLineWidth(0.5);
+        doc.rect(5, 5, 200, 287);
     
-        doc.setDrawColor(0); // Black color for the border
-        doc.setLineWidth(0.5); // Border thickness
-        doc.rect(10, 10, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 20); // Draw rectangle
+        const img = new Image();
+        img.src = logo;
+        img.onload = function () {
+            // Add logo
+            doc.addImage(img, 'PNG', 10, 8, 30, 20);
     
-        // Table Content
-        autoTable(doc, {
-            startY: 40, 
-            head: [["Field", "Value"]],
-            body: [
-                ["Receipt No", entry.receiptNumber || "-"],
-                ["Date", entry.date ? entry.date.slice(0, 10) : "-"],
-                ["Details", entry.details || "-"],
-                ["VN Number", entry.vnNumber || "-"],
-                ["Expenses", entry.expenses || "-"],
-            ],
-            theme: "grid",
-            headStyles: {
-                fillColor: [0, 0, 255], 
-                textColor: [255, 255, 255], 
-                fontSize: 12,
-            },
-            bodyStyles: {
-                fontSize: 10, 
-            },
-        });
+            // Title
+            doc.setFontSize(20);
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(0, 128, 0); // Green
+            doc.text("Pabasara Products", 105, 20, { align: "center" });
     
-        doc.save(`pettycash_entry_${entry._id}.pdf`);
+            // Table
+            autoTable(doc, {
+                startY: 40,
+                head: [["Field", "Value"]],
+                body: [
+                    ["Receipt No", entry.receiptNumber || "-"],
+                    ["Date", entry.date ? entry.date.slice(0, 10) : "-"],
+                    ["Details", entry.details || "-"],
+                    ["VN Number", entry.vnNumber || "-"],
+                    ["Expenses", entry.expenses || "-"],
+                ],
+                theme: "grid",
+                headStyles: {
+                    fillColor: [0, 102, 204], // Blue header
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                    halign: 'center'
+                },
+                bodyStyles: {
+                    fontSize: 10,
+                    halign: 'center'
+                },
+                styles: {
+                    font: "helvetica",
+                    fontSize: 10
+                }
+            });
+    
+            // Save PDF
+            doc.save(`pettycash_entry_${entry._id}.pdf`);
+        };
     };
     
 

@@ -5,10 +5,20 @@ const createEntry = async (req, res) => {
     try {
         const { income, expense } = req.body;
 
-        let lastEntry = await BalanceSheet.findOne().sort({ createdAt: -1 });
+        // Get all entries to calculate correct totals
+        const entries = await BalanceSheet.find();
 
-        let incomeTotal = lastEntry?.income?.total || 0;
-        let expenseTotal = lastEntry?.expense?.total || 0;
+        let incomeTotal = 0;
+        let expenseTotal = 0;
+
+        for (const entry of entries) {
+            if (entry.income) {
+                incomeTotal += entry.income.amount || 0;
+            }
+            if (entry.expense) {
+                expenseTotal += entry.expense.amount || 0;
+            }
+        }
 
         const newIncome = income ? {
             ...income,
@@ -28,6 +38,7 @@ const createEntry = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 
 // Get all balance sheet entries
@@ -62,11 +73,14 @@ const updateEntry = async (req, res) => {
 
         if (!updated) return res.status(404).json({ message: 'Entry not found' });
 
+        await recalculateTotals(); // Recalculate after update
+
         res.status(200).json({ message: 'Entry updated', data: updated });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 // Delete an entry
 const deleteEntry = async (req, res) => {
@@ -74,11 +88,35 @@ const deleteEntry = async (req, res) => {
         const deleted = await BalanceSheet.findByIdAndDelete(req.params.id);
         if (!deleted) return res.status(404).json({ message: 'Entry not found' });
 
+        await recalculateTotals(); // Recalculate after delete
+
         res.status(200).json({ message: 'Entry deleted successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
+
+// Helper to recalculate totals
+const recalculateTotals = async () => {
+    const entries = await BalanceSheet.find().sort({ createdAt: 1 }); // oldest first
+
+    let incomeTotal = 0;
+    let expenseTotal = 0;
+
+    for (const entry of entries) {
+        if (entry.income) {
+            incomeTotal += entry.income.amount || 0;
+            entry.income.total = incomeTotal;
+        }
+        if (entry.expense) {
+            expenseTotal += entry.expense.amount || 0;
+            entry.expense.total = expenseTotal;
+        }
+        await entry.save(); // Save updated entry
+    }
+};
+
 
 module.exports = {
     createEntry,
