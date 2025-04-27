@@ -77,6 +77,7 @@ function Payments() {
 
       doc.addImage(logoImg, 'JPG', 12, 12, 30, 30);  
 
+<<<<<<< HEAD
       doc.setFontSize(24);
       doc.setFont("helvetica", "bold");
       doc.setTextColor(15, 167, 134);
@@ -85,6 +86,17 @@ function Payments() {
       doc.setFontSize(18);
       doc.setTextColor(0, 0, 0);
       doc.text("Payment Report", pageWidth / 2, 45, { align: 'center' });
+=======
+     doc.setFontSize(24);
+     doc.setFont("helvetica", "bold");
+     doc.setTextColor(15, 167, 134);
+     doc.text("Pabasara Products", pageWidth / 2, 25, { align: 'center' });
+     
+     doc.setFontSize(18);
+     doc.setTextColor(0, 0, 0);  // Default black color for Payment Report
+     doc.text("Payment Report", pageWidth / 2, 45, { align: 'center' });
+     
+>>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
 
       const columns = ["User ID", "Amount", "Currency", "Status", "Payment ID", "Date"];
       const rows = filteredPayments.map(payment => [
