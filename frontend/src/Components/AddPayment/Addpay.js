@@ -23,11 +23,7 @@ function Addpay({ onPaymentAdded }) {
   const [status, setStatus] = useState('Successful');
   const [paymentIntentId, setPaymentIntentId] = useState('');
   const [userId, setUserId] = useState(''); 
-<<<<<<< HEAD
   const [cardHolderName, setCardHolderName] = useState('');
-=======
-  const [cardHolderName, setCardHolderName] = useState('');  // New state for card holder name
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [formErrors, setFormErrors] = useState({});
@@ -57,10 +53,6 @@ function Addpay({ onPaymentAdded }) {
     }
   }, [cardNumber]);
 
-<<<<<<< HEAD
-=======
-  // Validate card number
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
   const validateCardNumber = (number) => {
     return number.length === 16 && /^[0-9]+$/.test(number); 
   };
@@ -81,27 +73,18 @@ function Addpay({ onPaymentAdded }) {
     if (inputYear > currentYear || (inputYear === currentYear && inputMonth >= currentMonth)) {
       return { valid: true };
     } else {
-<<<<<<< HEAD
       return { valid: false, message: "This card has expired." };
-=======
-      return { valid: false, message: "Expiry date must be in the future." };
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
     }
   };
 
   const validateCVV = (cvv) => {
-<<<<<<< HEAD
     return cvv.length === (cardType === 'amex' ? 4 : 3) && /^[0-9]+$/.test(cvv);
-=======
-    return cvv.length === 3 && /^[0-9]+$/.test(cvv);
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
   };
 
   const validateAmount = (amount) => {
     return amount > 0;
   };
 
-<<<<<<< HEAD
   const validateCardHolderName = (name) => {
     return name.length > 0;
   };
@@ -129,26 +112,18 @@ function Addpay({ onPaymentAdded }) {
       return `${v.slice(0, 2)}/${v.slice(2)}`;
     }
     return value;
-=======
-  // Validate the cardholder name (optional validation)
-  const validateCardHolderName = (name) => {
-    return name.length > 0;  // Check if the name is not empty
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
   };
 
   const validateForm = () => {
     const errors = {};
     if (!validateCardNumber(cardNumber.replace(/\s/g, ''))) errors.cardNumber = 'Card number must be 16 digits.';
-    if (!validateExpiryDate(cardExpiry).valid) errors.cardExpiry = validateExpiryDate(cardExpiry).message || 'Invalid expiry date.';
+    const expiryValidation = validateExpiryDate(cardExpiry);
+    if (!expiryValidation.valid) errors.cardExpiry = expiryValidation.message || 'Invalid expiry date.';
     if (!validateCVV(cardCVV)) errors.cardCVV = cardType === 'amex' ? 'CVV must be a 4-digit number.' : 'CVV must be a 3-digit number.';
     if (!validateAmount(amount)) errors.amount = 'Amount must be greater than 0.';
     if (!currency) errors.currency = 'Currency is required.';
     if (!paymentIntentId) errors.paymentIntentId = 'Payment Intent ID is required.';
-<<<<<<< HEAD
     if (!validateCardHolderName(cardHolderName)) errors.cardHolderName = 'Cardholder name is required.';
-=======
-    if (!validateCardHolderName(cardHolderName)) errors.cardHolderName = 'Cardholder name is required.';  // Add validation for cardholder name
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0; 
@@ -164,7 +139,6 @@ function Addpay({ onPaymentAdded }) {
 
     const paymentData = {
       userId, 
-<<<<<<< HEAD
       cardDetails: { 
         cardNumber: cardNumber.replace(/\s/g, ''), 
         cardExpiry, 
@@ -172,9 +146,6 @@ function Addpay({ onPaymentAdded }) {
         cardHolderName,
         cardType
       },
-=======
-      cardDetails: { cardNumber, cardExpiry, cardCVV, cardHolderName },  // Include card holder name
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
       amount,
       currency,
       status,
@@ -195,22 +166,13 @@ function Addpay({ onPaymentAdded }) {
         setCardCVV('');
         setAmount('');
         setPaymentIntentId('');
-<<<<<<< HEAD
         setCardHolderName('');
-=======
-        setCardHolderName('');  // Reset card holder name
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
         setPaymentMethod('creditCard'); 
         setError(null);
         setFormErrors({});
 
         setTimeout(() => setSuccessMessage(''), 3000);
-<<<<<<< HEAD
         setTimeout(() => navigate("/mainpaymentdetails"), 2000);
-=======
-
-        navigate("/mainpaymentdetails");
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
       } else {
         setError(response.data.message || 'Failed to add payment.');
       }
@@ -226,7 +188,6 @@ function Addpay({ onPaymentAdded }) {
   };
 
   return (
-<<<<<<< HEAD
     <div className="addpay-page">
       <header className="main-header">
         <div className="top-bar">
@@ -317,38 +278,10 @@ function Addpay({ onPaymentAdded }) {
                   type="text"
                   id="cardHolderName"
                   placeholder="Full name as on card"
-=======
-    <div className="payment-form-container">
-      <h1>Add Payment Details</h1>
-      <form onSubmit={handleAddPayment} className="payment-form">
-        <table className="payment-form-table">
-          <tbody>
-            <tr>
-              <td><label htmlFor="paymentMethod">Payment Method</label></td>
-              <td>
-                <select
-                  id="paymentMethod"
-                  value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                >
-                  <option value="creditCard">Credit Card</option>
-                  <option value="debitCard">Debit Card</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td><label htmlFor="cardHolderName">Cardholder Name</label></td>
-              <td>
-                <input
-                  type="text"
-                  id="cardHolderName"
-                  placeholder="Cardholder Name"
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
                   value={cardHolderName}
                   onChange={(e) => setCardHolderName(e.target.value)}
                   required
                 />
-<<<<<<< HEAD
                 {formErrors.cardHolderName && <span className="error-message">{formErrors.cardHolderName}</span>}
               </div>
             </div>
@@ -358,14 +291,6 @@ function Addpay({ onPaymentAdded }) {
                 <label htmlFor="cardNumber">
                   <FaCreditCard className="input-icon" /> Card Number
                 </label>
-=======
-                {formErrors.cardHolderName && <p className="error-text">{formErrors.cardHolderName}</p>}
-              </td>
-            </tr>
-            <tr>
-              <td><label htmlFor="cardNumber">Card Number</label></td>
-              <td>
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
                 <input
                   type="text"
                   id="cardNumber"
@@ -471,7 +396,6 @@ function Addpay({ onPaymentAdded }) {
             </motion.button>
           </form>
 
-<<<<<<< HEAD
           {error && (
             <motion.div 
               className="error-banner"
@@ -570,13 +494,6 @@ function Addpay({ onPaymentAdded }) {
               <p><FaPhone /> +94 76 123 4567</p>
               <p><FaEnvelope /> support@pabasarashop.com</p>
             </div>
-=======
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Payment Added Successfully!</h2>
-            <button onClick={closeModal}>Close</button>
->>>>>>> 47f7cc2a546b74fdd5480fd6f8665b4fe3303aaa
           </div>
         </div>
         
