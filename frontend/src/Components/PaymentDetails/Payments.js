@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Nav from '../Nav/Nav';
 import axios from 'axios';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
+import { 
+  FaShoppingCart, FaHome, FaEnvelope, FaPhone, 
+  FaFacebook, FaTwitter, FaInstagram, FaUser,
+  FaSearch, FaHeart, FaBell, FaBox, FaInfoCircle, 
+  FaCreditCard, FaTruck, FaExchangeAlt, FaQuestionCircle,
+  FaTrash, FaFilePdf, FaMoneyBillWave
+} from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import './Payments.css';
 
 const URL = "http://localhost:3000/payments/get-all";
@@ -24,6 +31,7 @@ function Payments() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -63,21 +71,20 @@ function Payments() {
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
 
-      
-       doc.setDrawColor(0);
-       doc.setLineWidth(0.8);
-       doc.roundedRect(10, 10, pageWidth - 20, pageHeight - 20, 5, 5);
- 
+      doc.setDrawColor(0);
+      doc.setLineWidth(0.8);
+      doc.roundedRect(10, 10, pageWidth - 20, pageHeight - 20, 5, 5);
 
-    
-     doc.addImage(logoImg, 'JPG', 12, 12, 30, 30);  
+      doc.addImage(logoImg, 'JPG', 12, 12, 30, 30);  
 
-
-
-      doc.setFontSize(18);
+      doc.setFontSize(24);
       doc.setFont("helvetica", "bold");
+      doc.setTextColor(15, 167, 134);
+      doc.text("Pabasara Products", pageWidth / 2, 25, { align: 'center' });
+      
+      doc.setFontSize(18);
+      doc.setTextColor(0, 0, 0);
       doc.text("Payment Report", pageWidth / 2, 45, { align: 'center' });
-
 
       const columns = ["User ID", "Amount", "Currency", "Status", "Payment ID", "Date"];
       const rows = filteredPayments.map(payment => [
@@ -95,7 +102,7 @@ function Payments() {
         startY: 55,
         theme: 'grid',
         headStyles: {
-          fillColor: [15, 167, 134],
+          fillColor: [0, 123, 255],
           textColor: 255,
           fontStyle: 'bold'
         },
@@ -104,14 +111,13 @@ function Payments() {
         }
       });
 
-      
       const dateStr = new Date().toLocaleString();
       doc.setFontSize(10);
       doc.setTextColor(100);
       doc.text(`Generated on: ${dateStr}`, 14, pageHeight - 10);
       doc.text(`Page 1`, pageWidth - 30, pageHeight - 10);
 
-      doc.save("Payment_Report.pdf");
+      doc.save("Pay_Report.pdf");
     };
   };
 
@@ -135,67 +141,433 @@ function Payments() {
 
   if (loading) {
     return (
-      <div className="payments-container">
-        <Nav />
-        <h1>Payment Details Display Page</h1>
-        <p>Loading...</p>
+      <div className="payments-page">
+        {/* Header */}
+        <header className="main-header">
+          <div className="top-bar">
+            <div className="container">
+              <div className="welcome-message">Welcome to Pabasara Shop!</div>
+              <div className="top-links">
+                <a href="#"><FaPhone /> +94 76 123 4567</a>
+                <a href="#"><FaEnvelope /> support@pabasarashop.com</a>
+              </div>
+            </div>
+          </div>
+          
+          <div className="main-nav">
+            <div className="container">
+              <div className="logo-container" onClick={() => navigate('/')}>
+                <FaShoppingCart className="logo-icon" />
+                <h1 className="logo-text">Pabasara<span>Products</span></h1>
+              </div>
+              
+              <div className="search-bar">
+                <input type="text" placeholder="Search products..." />
+                <button className="search-btn"><FaSearch /></button>
+              </div>
+              
+              <div className="header-icons">
+                <button className="icon-btn" onClick={() => navigate('/wishlist')}>
+                  <FaHeart />
+                  <span className="badge">3</span>
+                </button>
+                <button className="icon-btn" onClick={() => navigate('/notifications')}>
+                  <FaBell />
+                  <span className="badge">5</span>
+                </button>
+                <button className="icon-btn account-btn" onClick={() => navigate('/account')}>
+                  <FaUser />
+                  <span>My Account</span>
+                </button>
+                <button className="cart-btn" onClick={() => navigate('/cart')}>
+                  <FaShoppingCart />
+                  <span className="cart-count">0</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Loading Content */}
+        <div className="payments-container">
+          <div className="payments-content">
+            <h1 className="payments-title">Payment Details</h1>
+            <div className="loading-spinner"></div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="main-footer">
+          <div className="footer-container">
+            <div className="footer-section">
+              <h3 className="footer-title">Shop Categories</h3>
+              <ul className="footer-links">
+                <li><a href="/products"><FaBox /> All Products</a></li>
+                <li><a href="/new-arrivals"><FaBox /> New Arrivals</a></li>
+                <li><a href="/best-sellers"><FaBox /> Best Sellers</a></li>
+                <li><a href="/deals"><FaBox /> Special Offers</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Customer Support</h3>
+              <ul className="footer-links">
+                <li><a href="/contact"><FaInfoCircle /> Contact Us</a></li>
+                <li><a href="/faq"><FaQuestionCircle /> FAQ</a></li>
+                <li><a href="/shipping"><FaTruck /> Shipping Info</a></li>
+                <li><a href="/returns"><FaExchangeAlt /> Returns Policy</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Company Info</h3>
+              <ul className="footer-links">
+                <li><a href="/about"><FaInfoCircle /> About Us</a></li>
+                <li><a href="/privacy"><FaInfoCircle /> Privacy Policy</a></li>
+                <li><a href="/terms"><FaInfoCircle /> Terms & Conditions</a></li>
+                <li><a href="/blog"><FaInfoCircle /> Our Blog</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Stay Connected</h3>
+              <div className="social-links">
+                <a href="#" aria-label="Facebook"><FaFacebook /></a>
+                <a href="#" aria-label="Twitter"><FaTwitter /></a>
+                <a href="#" aria-label="Instagram"><FaInstagram /></a>
+              </div>
+              <div className="newsletter">
+                <h4>Subscribe for Updates</h4>
+                <div className="newsletter-form">
+                  <input 
+                    type="email" 
+                    placeholder="Your email address" 
+                    aria-label="Email for newsletter"
+                  />
+                  <button>Subscribe</button>
+                </div>
+              </div>
+              <div className="footer-contact">
+                <p><FaPhone /> +94 76 123 4567</p>
+                <p><FaEnvelope /> support@pabasarashop.com</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="footer-bottom">
+            <p>&copy; {new Date().getFullYear()} Pabasara Shop. All Rights Reserved.</p>
+          </div>
+        </footer>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="payments-container">
-        <Nav />
-        <h1>Payment Details Display Page</h1>
-        <p>Error: {error.message || "An error occurred fetching payment details."}</p>
+      <div className="payments-page">
+        {/* Header */}
+        <header className="main-header">
+          <div className="top-bar">
+            <div className="container">
+              <div className="welcome-message">Welcome to Pabasara Shop!</div>
+              <div className="top-links">
+                <a href="#"><FaPhone /> +94 76 123 4567</a>
+                <a href="#"><FaEnvelope /> support@pabasarashop.com</a>
+              </div>
+            </div>
+          </div>
+          
+          <div className="main-nav">
+            <div className="container">
+              <div className="logo-container" onClick={() => navigate('/')}>
+                <FaShoppingCart className="logo-icon" />
+                <h1 className="logo-text">Pabasara<span>Products</span></h1>
+              </div>
+              
+              <div className="search-bar">
+                <input type="text" placeholder="Search products..." />
+                <button className="search-btn"><FaSearch /></button>
+              </div>
+              
+              <div className="header-icons">
+                <button className="icon-btn" onClick={() => navigate('/wishlist')}>
+                  <FaHeart />
+                  <span className="badge">3</span>
+                </button>
+                <button className="icon-btn" onClick={() => navigate('/notifications')}>
+                  <FaBell />
+                  <span className="badge">5</span>
+                </button>
+                <button className="icon-btn account-btn" onClick={() => navigate('/account')}>
+                  <FaUser />
+                  <span>My Account</span>
+                </button>
+                <button className="cart-btn" onClick={() => navigate('/cart')}>
+                  <FaShoppingCart />
+                  <span className="cart-count">0</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Error Content */}
+        <div className="payments-container">
+          <div className="payments-content">
+            <h1 className="payments-title">Payment Details</h1>
+            <div className="error-message">
+              <p>Error: {error.message || "An error occurred fetching payment details."}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="main-footer">
+          <div className="footer-container">
+            <div className="footer-section">
+              <h3 className="footer-title">Shop Categories</h3>
+              <ul className="footer-links">
+                <li><a href="/products"><FaBox /> All Products</a></li>
+                <li><a href="/new-arrivals"><FaBox /> New Arrivals</a></li>
+                <li><a href="/best-sellers"><FaBox /> Best Sellers</a></li>
+                <li><a href="/deals"><FaBox /> Special Offers</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Customer Support</h3>
+              <ul className="footer-links">
+                <li><a href="/contact"><FaInfoCircle /> Contact Us</a></li>
+                <li><a href="/faq"><FaQuestionCircle /> FAQ</a></li>
+                <li><a href="/shipping"><FaTruck /> Shipping Info</a></li>
+                <li><a href="/returns"><FaExchangeAlt /> Returns Policy</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Company Info</h3>
+              <ul className="footer-links">
+                <li><a href="/about"><FaInfoCircle /> About Us</a></li>
+                <li><a href="/privacy"><FaInfoCircle /> Privacy Policy</a></li>
+                <li><a href="/terms"><FaInfoCircle /> Terms & Conditions</a></li>
+                <li><a href="/blog"><FaInfoCircle /> Our Blog</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3 className="footer-title">Stay Connected</h3>
+              <div className="social-links">
+                <a href="#" aria-label="Facebook"><FaFacebook /></a>
+                <a href="#" aria-label="Twitter"><FaTwitter /></a>
+                <a href="#" aria-label="Instagram"><FaInstagram /></a>
+              </div>
+              <div className="newsletter">
+                <h4>Subscribe for Updates</h4>
+                <div className="newsletter-form">
+                  <input 
+                    type="email" 
+                    placeholder="Your email address" 
+                    aria-label="Email for newsletter"
+                  />
+                  <button>Subscribe</button>
+                </div>
+              </div>
+              <div className="footer-contact">
+                <p><FaPhone /> +94 76 123 4567</p>
+                <p><FaEnvelope /> support@pabasarashop.com</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="footer-bottom">
+            <p>&copy; {new Date().getFullYear()} Pabasara Shop. All Rights Reserved.</p>
+          </div>
+        </footer>
       </div>
     );
   }
 
   return (
-    <div className="payments-container">
-      <Nav />
-      <h1>This Is Your Payment Details</h1>
-
-      {/* Search Bar & Generate Report Button */}
-      <div className="search-container">
-        <input
-          type="text"
-          className="search-bar"
-          placeholder="Search by any field..."
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-        <button onClick={generatePDF} className="generate-report-btn">
-          Generate PDF Report
-        </button>
-      </div>
-
-      {/* Payment List */}
-      <div className="payment-list">
-        {filteredPayments.length > 0 ? (
-          filteredPayments.map((payment, index) => (
-            <div key={payment._id || index} className="payment-card">
-              <h2>User ID: {payment.userId}</h2>
-              <h2>Amount: {payment.amount}</h2>
-              <h2>Currency: {payment.currency}</h2>
-              <h2>Status: {payment.status}</h2>
-              <h2>Payment Intent ID: {payment.paymentIntentId}</h2>
-              <h2>Created At: {new Date(payment.createdAt).toLocaleString()}</h2>
-              <button
-                onClick={() => handleDelete(payment._id)}
-                className="delete-btn"
-              >
-                Delete
-              </button>
-              <br />
+    <div className="payments-page">
+      {/* Header */}
+      <header className="main-header">
+        <div className="top-bar">
+          <div className="container">
+            <div className="welcome-message">Welcome to Pabasara Shop!</div>
+            <div className="top-links">
+              <a href="#"><FaPhone /> +94 76 123 4567</a>
+              <a href="#"><FaEnvelope /> support@pabasarashop.com</a>
             </div>
-          ))
-        ) : (
-          <p className="no-data">No payment details available.</p>
-        )}
+          </div>
+        </div>
+        
+        <div className="main-nav">
+          <div className="container">
+            <div className="logo-container" onClick={() => navigate('/')}>
+              <FaShoppingCart className="logo-icon" />
+              <h1 className="logo-text">Pabasara<span>Products</span></h1>
+            </div>
+            
+            <div className="search-bar">
+              <input type="text" placeholder="Search products..." />
+              <button className="search-btn"><FaSearch /></button>
+            </div>
+            
+            <div className="header-icons">
+              <button className="icon-btn" onClick={() => navigate('/wishlist')}>
+                <FaHeart />
+                <span className="badge">3</span>
+              </button>
+              <button className="icon-btn" onClick={() => navigate('/notifications')}>
+                <FaBell />
+                <span className="badge">5</span>
+              </button>
+              <button className="icon-btn account-btn" onClick={() => navigate('/account')}>
+                <FaUser />
+                <span>My Account</span>
+              </button>
+              <button className="cart-btn" onClick={() => navigate('/cart')}>
+                <FaShoppingCart />
+                <span className="cart-count">0</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <div className="payments-container">
+        <div className="payments-content">
+          <h1 className="payments-title">Payment Details</h1>
+          
+          <div className="search-report-container">
+            <div className="search-wrapper">
+              <input
+                type="text"
+                className="search-bar"
+                placeholder="Search payments..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
+              <FaSearch className="search-icon" />
+            </div>
+            
+            <button onClick={generatePDF} className="generate-report-btn">
+              <FaFilePdf /> Generate Report
+            </button>
+          </div>
+
+          <div className="payment-list">
+            {filteredPayments.length > 0 ? (
+              filteredPayments.map((payment, index) => (
+                <div key={payment._id || index} className="payment-card">
+                  <div className="payment-header">
+                    <h3>Payment #{index + 1}</h3>
+                    <span className={`status-badge ${payment.status.toLowerCase()}`}>
+                      {payment.status}
+                    </span>
+                  </div>
+                  
+                  <div className="payment-details">
+                    <div className="detail-row">
+                      <span className="detail-label">User ID:</span>
+                      <span className="detail-value">{payment.userId}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="detail-label">Amount:</span>
+                      <span className="detail-value">{payment.amount} {payment.currency}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="detail-label">Payment ID:</span>
+                      <span className="detail-value payment-id">{payment.paymentIntentId}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="detail-label">Date:</span>
+                      <span className="detail-value">{new Date(payment.createdAt).toLocaleString()}</span>
+                    </div>
+                  </div>
+                  
+                  <button
+                    onClick={() => handleDelete(payment._id)}
+                    className="delete-btn"
+                  >
+                    <FaTrash /> Delete
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div className="no-payments">
+                <FaMoneyBillWave className="no-payments-icon" />
+                <p>No payment records found</p>
+                {searchQuery && <button onClick={() => setSearchQuery('')} className="clear-search-btn">Clear search</button>}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="main-footer">
+        <div className="footer-container">
+          <div className="footer-section">
+            <h3 className="footer-title">Shop Categories</h3>
+            <ul className="footer-links">
+              <li><a href="/products"><FaBox /> All Products</a></li>
+              <li><a href="/new-arrivals"><FaBox /> New Arrivals</a></li>
+              <li><a href="/best-sellers"><FaBox /> Best Sellers</a></li>
+              <li><a href="/deals"><FaBox /> Special Offers</a></li>
+            </ul>
+          </div>
+          
+          <div className="footer-section">
+            <h3 className="footer-title">Customer Support</h3>
+            <ul className="footer-links">
+              <li><a href="/contact"><FaInfoCircle /> Contact Us</a></li>
+              <li><a href="/faq"><FaQuestionCircle /> FAQ</a></li>
+              <li><a href="/shipping"><FaTruck /> Shipping Info</a></li>
+              <li><a href="/returns"><FaExchangeAlt /> Returns Policy</a></li>
+            </ul>
+          </div>
+          
+          <div className="footer-section">
+            <h3 className="footer-title">Company Info</h3>
+            <ul className="footer-links">
+              <li><a href="/about"><FaInfoCircle /> About Us</a></li>
+              <li><a href="/privacy"><FaInfoCircle /> Privacy Policy</a></li>
+              <li><a href="/terms"><FaInfoCircle /> Terms & Conditions</a></li>
+              <li><a href="/blog"><FaInfoCircle /> Our Blog</a></li>
+            </ul>
+          </div>
+          
+          <div className="footer-section">
+            <h3 className="footer-title">Stay Connected</h3>
+            <div className="social-links">
+              <a href="#" aria-label="Facebook"><FaFacebook /></a>
+              <a href="#" aria-label="Twitter"><FaTwitter /></a>
+              <a href="#" aria-label="Instagram"><FaInstagram /></a>
+            </div>
+            <div className="newsletter">
+              <h4>Subscribe for Updates</h4>
+              <div className="newsletter-form">
+                <input 
+                  type="email" 
+                  placeholder="Your email address" 
+                  aria-label="Email for newsletter"
+                />
+                <button>Subscribe</button>
+              </div>
+            </div>
+            <div className="footer-contact">
+              <p><FaPhone /> +94 76 123 4567</p>
+              <p><FaEnvelope /> support@pabasarashop.com</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="footer-bottom">
+          <p>&copy; {new Date().getFullYear()} Pabasara Shop. All Rights Reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
