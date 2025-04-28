@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { jsPDF } from "jspdf"; // Import jsPDF
+import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
 import "../css/BankBook.css";
-import logo from '../assests/logo.png'; // Make sure CSS exists
+import logo from '../assests/logo.png';
+import Header from "../Nav/Header";
+import Footer from "../Nav/Footer";
 
 function BankBook() {
     const [entries, setEntries] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(""); // <-- New state
     const navigate = useNavigate();
+
+    const goToBalanceSheet = () => navigate("/balancesheet");
+    const goToDashboard = () => navigate("/");
+    const goToBankBook = () => navigate("/bankbook");
+    const goToPettyCash = () => navigate("/pettycash");
 
     useEffect(() => {
         fetchEntries();
@@ -28,27 +36,20 @@ function BankBook() {
         }
     };
 
-    // Generate PDF for a single entry
     const generateSinglePDF = (entry) => {
         const doc = new jsPDF();
-    
-        // Add border
         doc.setLineWidth(0.5);
         doc.rect(5, 5, 200, 287);
-    
-        // Add logo
+
         const img = new Image();
         img.src = logo;
         img.onload = function () {
             doc.addImage(img, 'PNG', 10, 8, 30, 20);
-    
-            // Set title
             doc.setFontSize(20);
             doc.setFont("helvetica", "bold");
-            doc.setTextColor(0, 128, 0); // GREEN
+            doc.setTextColor(0, 128, 0);
             doc.text("PabsaraProducts", 105, 20, { align: "center" });
-    
-            // Prepare table data
+
             const tableData = [
                 ["Date", entry.date ? entry.date.slice(0, 10) : "-"],
                 ["Description", entry.description || "-"],
@@ -56,16 +57,15 @@ function BankBook() {
                 ["Withdrawal", entry.withdrawal || "-"],
                 ["Balance", entry.balance || "-"],
             ];
-    
-            // Create the table
+
             autoTable(doc, {
                 startY: 35,
                 head: [["Field", "Value"]],
                 body: tableData,
                 theme: 'grid',
                 headStyles: {
-                    fillColor: [0, 102, 204], // Nice BLUE
-                    textColor: [255, 255, 255], // White text
+                    fillColor: [0, 102, 204],
+                    textColor: [255, 255, 255],
                     halign: 'center',
                     fontStyle: 'bold'
                 },
@@ -77,27 +77,52 @@ function BankBook() {
                     fontSize: 10
                 }
             });
-    
+
             doc.save(`bankbook_entry_${entry._id}.pdf`);
         };
     };
-    
 
-    // Send WhatsApp message for a single entry
     const sendSingleWhatsAppMessage = (entry) => {
-        const phoneNumber = "+94714640582"; // Replace with your number
+        const phoneNumber = "+94714640582"; 
         const message = encodeURIComponent(
             `Bank Book Entry Details:\n\nDate: ${entry.date ? entry.date.slice(0, 10) : "-"}\nDescription: ${entry.description || "-"}\nDeposit: ${entry.deposit || "-"}\nWithdrawal: ${entry.withdrawal || "-"}\nBalance: ${entry.balance || "-"}`
         );
         window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
     };
 
+    // Filtered entries based on search
+    const filteredEntries = entries.filter((entry) =>
+        (entry.description && entry.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (entry.date && entry.date.slice(0, 10).includes(searchTerm))
+    );
+
     return (
+        <>
+            <Header />
         <div className="bankbook-container">
             <h1>Bank Book</h1>
+
+            <div className="dashboard-buttons">
+                <button className="btn-to-balancesheet" onClick={goToBalanceSheet}>Balance Sheet</button>
+                <button className="btn-to-dashboard" onClick={goToDashboard}>Dashboard</button>
+                <button className="btn-to-bankbook" onClick={goToBankBook}>Bank Book</button>
+                <button className="btn-to-pettycash" onClick={goToPettyCash}>Petty Cash</button>
+            </div>
+
             <div className="button-container">
                 <button className="add-button" onClick={() => navigate("/add-bank-entry")}>Add New Entry</button>
             </div>
+
+            {/* Search bar */}
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search by Date or Description..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+
             <table className="bankbook-table">
                 <thead>
                     <tr>
@@ -110,8 +135,8 @@ function BankBook() {
                     </tr>
                 </thead>
                 <tbody>
-                    {entries.length > 0 ? (
-                        entries.map((entry) => (
+                    {filteredEntries.length > 0 ? (
+                        filteredEntries.map((entry) => (
                             <tr key={entry._id}>
                                 <td>{entry.date ? entry.date.slice(0, 10) : "-"}</td>
                                 <td>{entry.description || "-"}</td>
@@ -119,30 +144,10 @@ function BankBook() {
                                 <td>{entry.withdrawal || "-"}</td>
                                 <td>{entry.balance || "-"}</td>
                                 <td className="action-buttons">
-                                    <button
-                                        className="edit-button"
-                                        onClick={() => navigate(`/update-bankbook/${entry._id}`)}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className="delete-button"
-                                        onClick={() => deleteEntry(entry._id)}
-                                    >
-                                        Delete
-                                    </button>
-                                    <button
-                                        className="download-entry-button"
-                                        onClick={() => generateSinglePDF(entry)}
-                                    >
-                                        Download PDF
-                                    </button>
-                                    <button
-                                        className="whatsapp-entry-button"
-                                        onClick={() => sendSingleWhatsAppMessage(entry)}
-                                    >
-                                        Send WhatsApp
-                                    </button>
+                                    <button className="edit-button" onClick={() => navigate(`/update-bankbook/${entry._id}`)}>Edit</button>
+                                    <button className="delete-button" onClick={() => deleteEntry(entry._id)}>Delete</button>
+                                    <button className="download-entry-button" onClick={() => generateSinglePDF(entry)}>Download PDF</button>
+                                    <button className="whatsapp-entry-button" onClick={() => sendSingleWhatsAppMessage(entry)}>Send WhatsApp</button>
                                 </td>
                             </tr>
                         ))
@@ -154,6 +159,8 @@ function BankBook() {
                 </tbody>
             </table>
         </div>
+        <Footer />
+        </>
     );
 }
 

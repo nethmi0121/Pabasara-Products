@@ -4,7 +4,8 @@ import "../css/Dashboard.css";
 import TransactionForm from "../Transaction/TransactionForm";
 import TransactionList from "../Transaction/TransactionList";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../Nav/Nav";
+import Header from "../Nav/Header";
+import Footer from "../Nav/Footer";
 
 function Dashboard() {
     const [transactions, setTransactions] = useState([]);
@@ -22,6 +23,10 @@ function Dashboard() {
         navigate("/balancesheet");
     };
 
+    const goToDashboard = () => {
+        navigate("/");
+    };
+
     const goToBankBook = () => {
         navigate("/bankbook");
     };
@@ -31,25 +36,34 @@ function Dashboard() {
     };
 
     return (
-        <div className="dashboard-container">
-            <div className="dashboard-header-wrapper">
-                <h1 className="dashboard-header">Financial Dashboard</h1>
-                <div className="dashboard-buttons">
-                    <button className="btn-to-balancesheet" onClick={goToBalanceSheet}>
-                        Balance Sheet
-                    </button>
-                    <button className="btn-to-bankbook" onClick={goToBankBook}>
-                        Bank Book
-                    </button>
-                    <button className="btn-to-pettycash" onClick={goToPettyCash}>
-                        Petty Cash
-                    </button>
+        <>
+            <Header /> {/* <== Nav is OUTSIDE of dashboard-container */}
+            
+            <div className="dashboard-container">
+                <div className="dashboard-header-wrapper">
+                    <h1 className="dashboard-header">Financial Dashboard</h1>
+                    <div className="dashboard-buttons">
+                        <button className="btn-to-balancesheet" onClick={goToBalanceSheet}>
+                            Balance Sheet
+                        </button>
+                        <button className="btn-to-dashboard" onClick={goToDashboard}>
+                            Dashboard
+                        </button>
+                        <button className="btn-to-bankbook" onClick={goToBankBook}>
+                            Bank Book
+                        </button>
+                        <button className="btn-to-pettycash" onClick={goToPettyCash}>
+                            Petty Cash
+                        </button>
+                    </div>
                 </div>
+
+                <TransactionForm setTransactions={setTransactions} />
+                <TransactionList transactions={transactions} setTransactions={setTransactions} />
             </div>
 
-            <TransactionForm setTransactions={setTransactions} />
-            <TransactionList transactions={transactions} setTransactions={setTransactions} />
-        </div>
+            <Footer /> 
+        </>
     );
 }
 

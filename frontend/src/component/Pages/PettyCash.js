@@ -5,11 +5,29 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import "../css/PettyCash.css";
 import logo from '../assests/logo.png';
+import Header from "../Nav/Header";
+import Footer from "../Nav/Footer";
 
 function PettyCash() {
     const [entries, setEntries] = useState([]);
     const [searchQuery, setSearchQuery] = useState(""); // NEW: Search Query
     const navigate = useNavigate();
+
+    const goToBalanceSheet = () => {
+        navigate("/balancesheet");
+    };
+
+    const goToDashboard = () => {
+        navigate("/");
+    };
+
+    const goToBankBook = () => {
+        navigate("/bankbook");
+    };
+
+    const goToPettyCash = () => {
+        navigate("/pettycash");
+    };
 
     useEffect(() => {
         fetchEntries();
@@ -100,9 +118,24 @@ function PettyCash() {
     );
 
     return (
-        <div className="pettycash-container">
+        <>
+            <Header/>
+            <div className="pettycash-container">
             <h1>Petty Cash</h1>
-
+            <div className="dashboard-buttons">
+                <button className="btn-to-balancesheet" onClick={goToBalanceSheet}>
+                        Balance Sheet
+                    </button>
+                <button className="btn-to-dashboard" onClick={goToDashboard}>
+                    Dashboard
+                </button>
+                <button className="btn-to-bankbook" onClick={goToBankBook}>
+                    Bank Book
+                </button>
+                <button className="btn-to-pettycash" onClick={goToPettyCash}>
+                    Petty Cash
+                </button>
+            </div>
             {/* Search Bar */}
             <div className="search-bar">
                 <input
@@ -160,6 +193,10 @@ function PettyCash() {
                 </tbody>
             </table>
         </div>
+        <Footer/>
+
+        </>
+        
     );
 }
 

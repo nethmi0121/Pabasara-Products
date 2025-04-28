@@ -1,58 +1,55 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/UpdateTransaction.css";
+import "../css/Dashboard.css";
+import TransactionForm from "../Transaction/TransactionForm";
+import TransactionList from "../Transaction/TransactionList";
+import { useNavigate } from "react-router-dom";
 
-function UpdateTransaction() {
-    const { id } = useParams();
+function Dashboard() {
+    const [transactions, setTransactions] = useState([]);
     const navigate = useNavigate();
-    const [transaction, setTransaction] = useState({
-        income_source: "",
-        total_income: "",
-        expense_type: "",
-        total_expenses: ""
-    });
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/Transactions/${id}`)
-            .then(res => setTransaction(res.data))
-            .catch(err => console.error("Error fetching transaction:", err));
-    }, [id]);
+        axios.get("http://localhost:5000/Transactions")
+            .then(res => {
+                setTransactions(res.data);
+            })
+            .catch(err => console.error("Error fetching transactions:", err));
+    }, []);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        
-        if ((name === "total_income" || name === "total_expenses") && (!/^\d*\.?\d*$/.test(value) || value < 0)) {
-            return; 
-        }
-        
-        setTransaction({ ...transaction, [name]: value });
+    const goToBalanceSheet = () => {
+        navigate("/balancesheet");
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.put(`http://localhost:5000/Transactions/${id}`, transaction);
-            navigate("/"); 
-        } catch (error) {
-            console.error("Error updating transaction:", error);
-        }
+    const goToBankBook = () => {
+        navigate("/bankbook");
+    };
+
+    const goToPettyCash = () => {
+        navigate("/pettycash");
     };
 
     return (
-        <div className="update-page">
-            <div className="update-container">
-                <h2>Update Transaction</h2>
-                <form className="update-form" onSubmit={handleSubmit}>
-                    <input type="text" name="income_source" placeholder="Income Source" value={transaction.income_source} onChange={handleChange} required />
-                    <input type="text" name="total_income" placeholder="Income $" value={transaction.total_income} onChange={handleChange} required />
-                    <input type="text" name="expense_type" placeholder="Expense Type" value={transaction.expense_type} onChange={handleChange} required />
-                    <input type="text" name="total_expenses" placeholder="Expense $" value={transaction.total_expenses} onChange={handleChange} required />
-                    <button className="update-button" type="submit">Update</button>
-                </form>
+        <div className="dashboard-container">
+            <div className="dashboard-header-wrapper">
+                <h1 className="dashboard-header">Financial Dashboard</h1>
+                <div className="dashboard-buttons">
+                    <button className="btn-to-balancesheet" onClick={goToBalanceSheet}>
+                        Balance Sheet
+                    </button>
+                    <button className="btn-to-bankbook" onClick={goToBankBook}>
+                        Bank Book
+                    </button>
+                    <button className="btn-to-pettycash" onClick={goToPettyCash}>
+                        Petty Cash
+                    </button>
+                </div>
             </div>
+
+            <TransactionForm setTransactions={setTransactions} />
+            <TransactionList transactions={transactions} setTransactions={setTransactions} />
         </div>
     );
 }
 
-export default UpdateTransaction;
+export default Dashboard;

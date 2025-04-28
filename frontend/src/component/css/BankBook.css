@@ -1,7 +1,28 @@
 /* ===== Bank Book Page ===== */
 .bankbook-container {
     padding: 20px;
-    background-color: #f7f1e1; /* Light yellowish-brown background */
+    background: linear-gradient(to bottom right, #ffeaa7, #fab1a0);
+}
+
+/* Search Bar Styling */
+.search-bar {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar input {
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #ffa726; /* Orange border */
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+    background-color: #fff3e0; /* Lighter background inside input */
+}
+
+.search-bar input::placeholder {
+    color: #ff9800; /* Placeholder text color */
 }
 
 .bankbook-header {
@@ -74,9 +95,13 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 30px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.bankbook-table th, .bankbook-table td {
+.bankbook-table th, 
+.bankbook-table td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: center;
@@ -101,15 +126,21 @@
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    transition: all 0.3s ease; /* Smooth hover effect */
 }
 
 .bankbook-table button:hover {
     opacity: 0.8;
 }
 
+/* Individual Action Buttons */
 .edit-button {
     background-color: #4CAF50;
     color: white;
+}
+
+.edit-button:hover {
+    background-color: #45a049;
 }
 
 .delete-button {
@@ -117,9 +148,17 @@
     color: white;
 }
 
+.delete-button:hover {
+    background-color: #e53935;
+}
+
 .download-entry-button {
     background-color: #2196F3;
     color: white;
+}
+
+.download-entry-button:hover {
+    background-color: #1976D2;
 }
 
 .whatsapp-entry-button {
@@ -127,10 +166,14 @@
     color: white;
 }
 
+.whatsapp-entry-button:hover {
+    background-color: #128c7e;
+}
+
 /* ===== Update Bank Book Page ===== */
 .update-bankbook-container {
     padding: 20px;
-    background-color: #f7f1e1; /* Same yellowish-brown background */
+    background-color: #f7f1e1; /* Light yellowish background */
 }
 
 .update-bankbook-header {
@@ -138,7 +181,7 @@
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
-    color: #3c3c3c; /* Darker text */
+    color: #3c3c3c;
 }
 
 .update-bankbook-form {
@@ -159,7 +202,7 @@
 
 .update-bankbook-form label {
     font-weight: bold;
-    color: #333; /* Darker label color */
+    color: #333;
 }
 
 .update-bankbook-form input {
@@ -187,38 +230,17 @@
 
 .action-buttons {
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
     gap: 5px;
 }
 
-.edit-button,
-.delete-button,
-.download-entry-button,
-.whatsapp-entry-button {
-    padding: 6px 10px;
-    margin: 2px 0;
-    font-size: 12px;
+/* Buttons inside action-buttons (overriding again for clarity) */
+.action-buttons button {
+    width: 80px;
+    padding: 8px 0;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: bold;
 }
 
-.edit-button {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.delete-button {
-    background-color: #f44336;
-    color: white;
-}
-
-.download-entry-button {
-    background-color: #2196F3;
-    color: white;
-}
-
-.whatsapp-entry-button {
-    background-color: #25D366;
-    color: white;
-}

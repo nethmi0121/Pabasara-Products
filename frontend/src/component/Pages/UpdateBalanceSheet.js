@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../css/BalanceSheet.css";
 
 function UpdateBalanceSheet() {
     const { id } = useParams();
@@ -37,9 +38,8 @@ function UpdateBalanceSheet() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split("T")[0];
 
-        // Check if the income or expense date is in the future
         if (form.incomeDate > today || form.expenseDate > today) {
             alert("Future dates are not allowed.");
             return;
@@ -49,12 +49,12 @@ function UpdateBalanceSheet() {
             income: {
                 date: form.incomeDate,
                 description: form.incomeDesc,
-                amount: parseFloat(form.incomeAmount)
+                amount: parseFloat(form.incomeAmount) || 0
             },
             expense: {
                 date: form.expenseDate,
                 description: form.expenseDesc,
-                amount: parseFloat(form.expenseAmount)
+                amount: parseFloat(form.expenseAmount) || 0
             }
         };
 
@@ -66,21 +66,75 @@ function UpdateBalanceSheet() {
     };
 
     return (
-        <div className="update-form">
-            <h2>Update Balance Sheet Entry</h2>
-            <form onSubmit={handleSubmit}>
-                <h3>Income</h3>
-                <input type="date" name="incomeDate" value={form.incomeDate} onChange={handleChange} />
-                <input type="text" name="incomeDesc" placeholder="Description" value={form.incomeDesc} onChange={handleChange} />
-                <input type="number" name="incomeAmount" placeholder="Amount" value={form.incomeAmount} onChange={handleChange} />
+        <div className="update-form-container">
+            <div className="update-form">
+                <h2>Update Balance Sheet Entry</h2>
+                <form onSubmit={handleSubmit}>
+                    <h3>Income</h3>
+                    <div className="form-group">
+                        <input 
+                            type="date" 
+                            name="incomeDate" 
+                            value={form.incomeDate} 
+                            onChange={handleChange} 
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input 
+                            type="text" 
+                            name="incomeDesc" 
+                            placeholder="Description" 
+                            value={form.incomeDesc} 
+                            onChange={handleChange} 
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input 
+                            type="number" 
+                            name="incomeAmount" 
+                            placeholder="Amount" 
+                            value={form.incomeAmount} 
+                            onChange={handleChange} 
+                            min="0"
+                        />
+                    </div>
 
-                <h3>Expense</h3>
-                <input type="date" name="expenseDate" value={form.expenseDate} onChange={handleChange} />
-                <input type="text" name="expenseDesc" placeholder="Description" value={form.expenseDesc} onChange={handleChange} />
-                <input type="number" name="expenseAmount" placeholder="Amount" value={form.expenseAmount} onChange={handleChange} />
+                    <h3>Expense</h3>
+                    <div className="form-group">
+                        <input 
+                            type="date" 
+                            name="expenseDate" 
+                            value={form.expenseDate} 
+                            onChange={handleChange} 
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input 
+                            type="text" 
+                            name="expenseDesc" 
+                            placeholder="Description" 
+                            value={form.expenseDesc} 
+                            onChange={handleChange} 
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input 
+                            type="number" 
+                            name="expenseAmount" 
+                            placeholder="Amount" 
+                            value={form.expenseAmount} 
+                            onChange={handleChange} 
+                            min="0"
+                        />
+                    </div>
 
-                <button type="submit">Update Entry</button>
-            </form>
+                    <button type="submit">Update Entry</button>
+                </form>
+            </div>
         </div>
     );
 }

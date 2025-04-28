@@ -1,6 +1,6 @@
 .pettycash-container {
     padding: 20px;
-    background-color: #fff8e1; /* Light yellowish-orange */
+    background: linear-gradient(to bottom right, #ffeaa7, #fab1a0);
     min-height: 100vh;
 }
 

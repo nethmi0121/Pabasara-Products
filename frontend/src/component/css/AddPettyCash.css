@@ -1,20 +1,20 @@
-.add-bankbook-container {
+.add-pettycash-container {
     max-width: 600px;
     margin: 50px auto;
     padding: 30px;
-    background-color: #f9f9f9;
+    background: linear-gradient(to bottom right, #ffeaa7, #fab1a0);
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.add-bankbook-header {
+.add-pettycash-header {
     text-align: center;
     margin-bottom: 25px;
     font-size: 28px;
     color: #333;
 }
 
-.add-bankbook-form {
+.add-pettycash-form {
     display: flex;
     flex-direction: column;
     gap: 20px;

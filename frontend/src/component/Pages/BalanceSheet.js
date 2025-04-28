@@ -5,7 +5,8 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import "../css/BalanceSheet.css";
 import logo from '../assests/logo.png';
-import Nav from "../Nav/Nav"; 
+import Header from "../Nav/Header";
+import Footer from "../Nav/Footer";
 
 function BalanceSheet() {
     const [entries, setEntries] = useState([]);
@@ -19,6 +20,23 @@ function BalanceSheet() {
         expenseAmount: ''
     });
     const navigate = useNavigate();
+
+    // Adding navigation for other pages
+    const goToBalanceSheet = () => {
+        navigate("/balancesheet");
+    };
+
+    const goToDashboard = () => {
+        navigate("/");
+    };
+
+    const goToBankBook = () => {
+        navigate("/bankbook");
+    };
+
+    const goToPettyCash = () => {
+        navigate("/pettycash");
+    };
 
     useEffect(() => {
         fetchEntries();
@@ -40,24 +58,20 @@ function BalanceSheet() {
 
     const handleDownloadFullSheet = () => {
         const doc = new jsPDF();
-    
-        // Add border
         doc.setLineWidth(0.5);
         doc.rect(5, 5, 200, 287);
-    
+
         const img = new Image();
         img.src = logo;
         img.onload = function () {
             doc.addImage(img, 'PNG', 10, 8, 30, 20);
-    
-            // Set title
+
             doc.setFontSize(20);
             doc.setFont("helvetica", "bold");
-            doc.setTextColor(0, 128, 0); // GREEN color for title (RGB for green)
+            doc.setTextColor(0, 128, 0);
             doc.text("PabsaraProducts", 105, 20, { align: "center" });
-    
-            // Prepare table data
-            const tableData = entries.map(entry => ([
+
+            const tableData = entries.map(entry => ([ 
                 entry.income?.date?.slice(0, 10) || "-",
                 entry.income?.description || "-",
                 entry.income?.amount || "-",
@@ -67,19 +81,15 @@ function BalanceSheet() {
                 entry.expense?.amount || "-",
                 entry.expense?.total || "-"
             ]));
-    
-            // Create the table
+
             autoTable(doc, {
                 startY: 35,
-                head: [[
-                    "Income Date", "Income Desc", "Income Amount", "Income Total",
-                    "Expense Date", "Expense Desc", "Expense Amount", "Expense Total"
-                ]],
+                head: [["Income Date", "Income Desc", "Income Amount", "Income Total", "Expense Date", "Expense Desc", "Expense Amount", "Expense Total"]],
                 body: tableData,
                 theme: 'grid',
                 headStyles: {
-                    fillColor: [0, 102, 204], // BLUE color for header (nice light blue)
-                    textColor: [255, 255, 255], // white text on blue
+                    fillColor: [0, 102, 204],
+                    textColor: [255, 255, 255],
                     halign: 'center',
                     fontStyle: 'bold'
                 },
@@ -91,12 +101,10 @@ function BalanceSheet() {
                     fontSize: 10
                 }
             });
-    
+
             doc.save("Full_BalanceSheet.pdf");
         };
     };
-    
-    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -172,7 +180,7 @@ function BalanceSheet() {
     };
 
     const sendWhatsAppMessage = (entry) => {
-        const phoneNumber = "+94714640582"; 
+        const phoneNumber = "+94714640582";
         const incomeMsg = entry.income
             ? `Income: ${entry.income.description} - ₹${entry.income.amount} on ${entry.income.date.slice(0, 10)}`
             : "";
@@ -190,8 +198,26 @@ function BalanceSheet() {
     );
 
     return (
-        <div className="balancesheet-container">
+        <>
+            <Header/>
+            <div className="balancesheet-container">
             <h1 className="balancesheet-header">Balance Sheet</h1>
+
+            {/* Navigation buttons */}
+            <div className="dashboard-buttons">
+                <button className="btn-to-balancesheet" onClick={goToBalanceSheet}>
+                        Balance Sheet
+                    </button>
+                <button className="btn-to-dashboard" onClick={goToDashboard}>
+                    Dashboard
+                </button>
+                <button className="btn-to-bankbook" onClick={goToBankBook}>
+                    Bank Book
+                </button>
+                <button className="btn-to-pettycash" onClick={goToPettyCash}>
+                    Petty Cash
+                </button>
+            </div>
 
             {/* Search Bar */}
             <div className="search-bar">
@@ -207,19 +233,28 @@ function BalanceSheet() {
             <form onSubmit={handleSubmit} className="add-entry-form">
                 <h3>Add New Entry</h3>
 
-                <div className="form-group">
-                    <h4>Income</h4>
-                    <input type="date" name="incomeDate" value={form.incomeDate} onChange={handleChange} max={new Date().toISOString().split("T")[0]} />
-                    <input type="text" name="incomeDesc" placeholder="Description" value={form.incomeDesc} onChange={handleChange} />
-                    <input type="number" name="incomeAmount" placeholder="Amount" value={form.incomeAmount} onChange={handleChange} />
-                </div>
-
-                <div className="form-group">
-                    <h4>Expense</h4>
-                    <input type="date" name="expenseDate" value={form.expenseDate} onChange={handleChange} max={new Date().toISOString().split("T")[0]} />
-                    <input type="text" name="expenseDesc" placeholder="Description" value={form.expenseDesc} onChange={handleChange} />
-                    <input type="number" name="expenseAmount" placeholder="Amount" value={form.expenseAmount} onChange={handleChange} />
-                </div>
+                <table className="entry-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="date" name="incomeDate" value={form.incomeDate} onChange={handleChange} max={new Date().toISOString().split("T")[0]} /></td>
+                            <td><input type="text" name="incomeDesc" placeholder="Description" value={form.incomeDesc} onChange={handleChange} /></td>
+                            <td><input type="number" name="incomeAmount" placeholder="Amount" value={form.incomeAmount} onChange={handleChange} /></td>
+                            <td><input type="date" name="expenseDate" value={form.expenseDate} onChange={handleChange} max={new Date().toISOString().split("T")[0]} /></td>
+                            <td><input type="text" name="expenseDesc" placeholder="Description" value={form.expenseDesc} onChange={handleChange} /></td>
+                            <td><input type="number" name="expenseAmount" placeholder="Amount" value={form.expenseAmount} onChange={handleChange} /></td>
+                        </tr>
+                    </tbody>
+                </table>
 
                 <button type="submit">➕ Add Entry</button>
             </form>
@@ -267,6 +302,9 @@ function BalanceSheet() {
                 </tbody>
             </table>
         </div>
+        <Footer/>
+        </>
+        
     );
 }
 
