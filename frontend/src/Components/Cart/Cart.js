@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { 
   FaTrash, FaShoppingBag, FaArrowLeft, FaPlus, FaMinus, 
@@ -11,84 +10,42 @@ import {
 import './Cart.css';
 
 function Cart() {
-  const [cart, setCart] = useState(null);
+  const [cart, setCart] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const userId = "63f1c5d4d9c52a1f69b5f123";
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userId) {
-      setLoading(true);
-      axios.get(`http://localhost:3000/cart/get/${userId}`)
-        .then(response => {
-          if (response.data && response.data.cart) {
-            setCart(response.data.cart);
-          } else {
-            setError("Your cart is empty");
-          }
-          setLoading(false);
-        })
-        .catch(error => {
-          setError("Error fetching cart. Please try again later.");
-          setLoading(false);
-          console.error("Error fetching cart:", error);
-        });
-    } else {
-      setError("Please login to view your cart");
-      setLoading(false);
-    }
-  }, [userId]);
+    // Load cart from localStorage
+    const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+    setCart(cartData);
+  }, []);
 
   const handleRemoveItem = (productId) => {
-    axios.post(`http://localhost:3000/cart/remove/${userId}`, { productId })
-      .then(response => {
-        if (response.data && response.data.cart) {
-          setCart(response.data.cart);
-        } else {
-          setError("Error updating cart.");
-        }
-      })
-      .catch(error => {
-        setError("Error removing item.");
-        console.error("Error removing item:", error);
-      });
+    const updatedCart = cart.filter(item => item.productId !== productId);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCart(updatedCart);
   };
 
   const handleQuantityChange = (productId, change) => {
-    const item = cart.items.find(i => i.productId === productId);
-    const newQuantity = item.quantity + change;
-    
-    if (newQuantity < 1) return;
-    
-    axios.post(`http://localhost:3000/cart/update/${userId}`, { productId, quantity: newQuantity })
-      .then(response => {
-        if (response.data && response.data.cart) {
-          setCart(response.data.cart);
-        } else {
-          setError("Error updating cart.");
-        }
-      })
-      .catch(error => {
-        setError("Error updating quantity.");
-        console.error("Error updating quantity:", error);
-      });
+    const updatedCart = cart.map(item => {
+      if (item.productId === productId) {
+        const newQuantity = item.quantity + change;
+        return {
+          ...item,
+          quantity: newQuantity >= 1 ? newQuantity : 1
+        };
+      }
+      return item;
+    });
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCart(updatedCart);
   };
 
   const handleClearCart = () => {
     if (window.confirm("Are you sure you want to clear your cart?")) {
-      axios.post(`http://localhost:3000/cart/clear/${userId}`)
-        .then(response => {
-          if (response.data) {
-            setCart(null);
-          } else {
-            setError("Error clearing cart.");
-          }
-        })
-        .catch(error => {
-          setError("Error clearing cart.");
-          console.error("Error clearing cart:", error);
-        });
+      localStorage.removeItem('cart');
+      setCart([]);
     }
   };
 
@@ -97,9 +54,15 @@ function Cart() {
   };
 
   const continueShopping = () => {
-    navigate('/products');
+    navigate('/');
   };
 
+  // Calculate totals
+  const subtotal = cart.reduce((sum, item) => sum + (item.productDetails.price * item.quantity), 0);
+  const shipping = subtotal * 0.05;
+  const tax = subtotal * 0.12;
+  const total = subtotal + shipping + tax;
+  
   return (
     <div className="cart-page">
       {/* Header with Updated Color Scheme */}
@@ -122,8 +85,12 @@ function Cart() {
             </div>
             
             <div className="search-bar">
-              <input type="text" placeholder="Search products..." />
-              <button className="search-btn"><FaSearch /></button>
+              <FaSearch className="search-icon" />
+              <input 
+                type="text" 
+                placeholder="Search sweets, snacks..." 
+                aria-label="Search products"
+              />
             </div>
             
             <div className="header-icons">
@@ -139,9 +106,9 @@ function Cart() {
                 <FaUser />
                 <span>My Account</span>
               </button>
-              <button className="cart-btn" onClick={() => navigate('/cart')}>
+              <button className="cart-btn" onClick={() => navigate('/maincart')}>
                 <FaShoppingCart />
-                {cart && <span className="cart-count">{cart.items.length}</span>}
+                <span className="cart-count">{cart.length}</span>
               </button>
             </div>
           </div>
@@ -151,14 +118,12 @@ function Cart() {
       {/* Cart Content */}
       <main className="cart-container">
         <div className="container">
-          
-
           <div className="cart-header">
             <div className="cart-icon-title">
               <FaShoppingCart className="cart-main-icon" />
               <h1 className="cart-title">Your Shopping Cart</h1>
             </div>
-            <p className="cart-item-count">{cart?.items?.length || 0} {cart?.items?.length === 1 ? 'item' : 'items'}</p>
+            <p className="cart-item-count">{cart.length} {cart.length === 1 ? 'item' : 'items'}</p>
           </div>
 
           {loading ? (
@@ -176,7 +141,7 @@ function Cart() {
                 <FaArrowLeft /> Continue Shopping
               </button>
             </div>
-          ) : cart?.items?.length === 0 ? (
+          ) : cart.length === 0 ? (
             <div className="empty-cart">
               <div className="empty-cart-icon">
                 <FaShoppingBag size={48} />
@@ -189,14 +154,15 @@ function Cart() {
           ) : (
             <>
               <div className="cart-items">
-                {cart?.items?.map(item => (
+                {cart.map(item => (
                   <div key={item.productId} className="cart-item">
                     <div className="item-image">
-                      <img src={item.image || 'https://via.placeholder.com/100'} alt={item.name} />
+                      <img src={item.productDetails.image || 'https://via.placeholder.com/100'} alt={item.productDetails.name} />
                     </div>
                     <div className="item-details">
-                      <h3 className="item-name">{item.name || `Product ${item.productId}`}</h3>
-                      <p className="item-price">Rs.{item.price?.toFixed(2)}</p>
+                      <h3 className="item-name">{item.productDetails.name}</h3>
+                      <p className="item-price">Rs.{item.productDetails.price.toFixed(2)}</p>
+                      <p className="item-description">{item.productDetails.description}</p>
                     </div>
                     <div className="item-quantity">
                       <button 
@@ -216,7 +182,7 @@ function Cart() {
                       </button>
                     </div>
                     <div className="item-total">
-                      Rs.{(item.price * item.quantity)?.toFixed(2)}
+                      Rs.{(item.productDetails.price * item.quantity).toFixed(2)}
                     </div>
                     <button 
                       onClick={() => handleRemoveItem(item.productId)}
@@ -232,19 +198,19 @@ function Cart() {
               <div className="cart-summary">
                 <div className="summary-row">
                   <span>Subtotal</span>
-                  <span>Rs.{cart?.total?.toFixed(2) || "0.00"}</span>
+                  <span>Rs.{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="summary-row">
                   <span>Shipping</span>
-                  <span>Rs.{(cart?.total * 0.05)?.toFixed(2) || "0.00"}</span>
+                  <span>Rs.{shipping.toFixed(2)}</span>
                 </div>
                 <div className="summary-row">
                   <span>Tax</span>
-                  <span>Rs.{(cart?.total * 0.12)?.toFixed(2) || "0.00"}</span>
+                  <span>Rs.{tax.toFixed(2)}</span>
                 </div>
                 <div className="summary-row total">
                   <span>Total</span>
-                  <span>Rs.{((cart?.total || 0) * 1.17)?.toFixed(2)}</span>
+                  <span>Rs.{total.toFixed(2)}</span>
                 </div>
                 <div className="cart-actions">
                   <button onClick={handleClearCart} className="clear-cart">

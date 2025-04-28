@@ -185,12 +185,16 @@ function Payments() {
                 <FaShoppingCart className="logo-icon" />
                 <h1 className="logo-text">Pabasara<span>Products</span></h1>
               </div>
-              
+
               <div className="search-bar">
-                <input type="text" placeholder="Search products..." />
-                <button className="search-btn"><FaSearch /></button>
-              </div>
-              
+              <FaSearch className="search-icon" />
+              <input 
+                type="text" 
+                placeholder="Search sweets, snacks..." 
+                aria-label="Search products"
+              />
+            </div>
+
               <div className="header-icons">
                 <button className="icon-btn" onClick={() => navigate('/wishlist')}>
                   <FaHeart />

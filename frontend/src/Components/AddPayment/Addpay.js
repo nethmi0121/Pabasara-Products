@@ -208,8 +208,12 @@ function Addpay({ onPaymentAdded }) {
             </div>
             
             <div className="search-bar">
-              <input type="text" placeholder="Search products..." />
-              <button className="search-btn"><FaSearch /></button>
+              <FaSearch className="search-icon" />
+              <input 
+                type="text" 
+                placeholder="Search sweets, snacks..." 
+                aria-label="Search products"
+              />
             </div>
             
             <div className="header-icons">
