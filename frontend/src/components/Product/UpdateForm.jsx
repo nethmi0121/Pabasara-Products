@@ -1,62 +1,57 @@
-import { useState, useEffect } from 'react';
-import { ImagePlus, X, CandyCane } from 'lucide-react';
+import { useState, useEffect } from 'react'
+import { ImagePlus, X, CandyCane } from 'lucide-react'
 
 const UpdateForm = ({ product, onUpdate, onClose }) => {
-  const [productName, setProductName] = useState(product.name);
-  const [category, setCategory] = useState(product.category);
-  const [description, setDescription] = useState(product.description);
-  const [images, setImages] = useState([]);
-  const [previewImages, setPreviewImages] = useState(product.images);
+  const [productName, setProductName] = useState(product.name)
+  const [category, setCategory] = useState(product.category)
+  const [description, setDescription] = useState(product.description)
+  const [images, setImages] = useState([])
+  const [previewImages, setPreviewImages] = useState(product.images)
+  const [nameError, setNameError] = useState('')
+  const [descriptionError, setDescriptionError] = useState('')
 
-<<<<<<< HEAD
-  // NEW: State for input field error messages
-  const [nameError, setNameError] = useState('');
-  const [descriptionError, setDescriptionError] = useState('');
-
-=======
->>>>>>> 5fb6f9f (Initial commit)
   useEffect(() => {
-    setProductName(product.name);
-    setCategory(product.category);
-    setDescription(product.description);
-    setPreviewImages(product.images);
-    setImages([]);
-  }, [product]);
+    setProductName(product.name)
+    setCategory(product.category)
+    setDescription(product.description)
+    setPreviewImages(product.images)
+    setImages([])
+  }, [product])
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files)
     if (files.length + previewImages.length > 5) {
-      alert('You can upload maximum 5 images');
-      return;
+      alert('You can upload maximum 5 images')
+      return
     }
 
-    const newImages = [...images, ...files];
-    setImages(newImages);
+    const newImages = [...images, ...files]
+    setImages(newImages)
 
     const newPreviewImages = [
       ...previewImages,
       ...newImages.map((file) => URL.createObjectURL(file)),
-    ];
-    setPreviewImages(newPreviewImages);
-  };
+    ]
+    setPreviewImages(newPreviewImages)
+  }
 
   const removeImage = (index) => {
-    const newPreviewImages = [...previewImages];
-    newPreviewImages.splice(index, 1);
-    setPreviewImages(newPreviewImages);
+    const newPreviewImages = [...previewImages]
+    newPreviewImages.splice(index, 1)
+    setPreviewImages(newPreviewImages)
 
     if (index >= product.images.length) {
-      const newImages = [...images];
-      newImages.splice(index - product.images.length, 1);
-      setImages(newImages);
+      const newImages = [...images]
+      newImages.splice(index - product.images.length, 1)
+      setImages(newImages)
     }
-  };
+  }
 
   const handleFormSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!productName || !category || !description) {
-      alert('Please fill all required fields');
-      return;
+      alert('Please fill all required fields')
+      return
     }
 
     const updatedProduct = {
@@ -65,10 +60,10 @@ const UpdateForm = ({ product, onUpdate, onClose }) => {
       category,
       description,
       images: previewImages,
-    };
+    }
 
-    onUpdate(updatedProduct);
-  };
+    onUpdate(updatedProduct)
+  }
 
   return (
     <div className="fixed inset-0 bg-[#00000095] flex items-center justify-center z-50">
@@ -79,10 +74,7 @@ const UpdateForm = ({ product, onUpdate, onClose }) => {
               <CandyCane className="w-5 h-5" />
               Update Product
             </h2>
-            <button
-              onClick={onClose}
-              className="text-orange-500 hover:text-orange-700"
-            >
+            <button onClick={onClose} className="text-orange-500 hover:text-orange-700">
               <X className="w-6 h-6" />
             </button>
           </div>
@@ -96,18 +88,11 @@ const UpdateForm = ({ product, onUpdate, onClose }) => {
                 type="text"
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
-<<<<<<< HEAD
                 onInput={(e) => setNameError(e.target.validationMessage)}
                 className="w-full px-3 py-2 border border-orange-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 required
               />
-              {/* NEW: Display error message in red when typing */}
               {nameError && <p className="mt-1 text-sm text-red-500">{nameError}</p>}
-=======
-                className="w-full px-3 py-2 border border-orange-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                required
-              />
->>>>>>> 5fb6f9f (Initial commit)
             </div>
 
             <div>
@@ -136,19 +121,12 @@ const UpdateForm = ({ product, onUpdate, onClose }) => {
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-<<<<<<< HEAD
                 onInput={(e) => setDescriptionError(e.target.validationMessage)}
-=======
->>>>>>> 5fb6f9f (Initial commit)
                 className="w-full px-3 py-2 border border-orange-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 rows="3"
                 required
               />
-<<<<<<< HEAD
-              {/* NEW: Display error message in red when typing */}
               {descriptionError && <p className="mt-1 text-sm text-red-500">{descriptionError}</p>}
-=======
->>>>>>> 5fb6f9f (Initial commit)
             </div>
 
             <div>
@@ -216,11 +194,7 @@ const UpdateForm = ({ product, onUpdate, onClose }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-<<<<<<< HEAD
-export default UpdateForm;
-=======
-export default UpdateForm;
->>>>>>> 5fb6f9f (Initial commit)
+export default UpdateForm
