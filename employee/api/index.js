@@ -12,6 +12,9 @@ import transactionsRoutes from "./routes/TransactionsRoutes.js";
 import balanceSheetRoutes from "./routes/BalanceSheetRoutes.js";
 import bankBookRoutes from "./routes/BankBookRoutes.js";
 import pettyCashRoutes from "./routes/PettyCashRoutes.js";
+import path from "path";
+import { fileURLToPath } from 'url';
+import ProductManagementRoutes from "./routes/productManagementRoutes/ProductManagementRoutes.js";
 dotenv.config();
 
 mongoose.connect(process.env.MONGO).then(()=>{
@@ -37,6 +40,14 @@ app.use('/Transactions', transactionsRoutes);
 app.use('/api/balancesheet', balanceSheetRoutes);
 app.use('/api/bankbook', bankBookRoutes);
 app.use('/api/pettycash', pettyCashRoutes);
+app.use('/api/product-management', ProductManagementRoutes);
+
+
+// uploads access route
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use('/uploads', express.static(path.join(__dirname, './src/uploads')));
+
 
 app.use((err,req,res,next)=>{
     const statusCode=err.statusCode||500;

@@ -27,6 +27,8 @@ import AddbankBook from "./components/Pages/AddbankBook.jsx";
 import PettyCash from "./components/Pages/PettyCash.jsx";
 import UpdatePettyCash from "./components/Pages/UpdatePettyCash.jsx";
 import AddPettyCash from "./components/Pages/AddPettyCash.jsx";
+import ProductManagement from "./components/routes/ProductManagement.jsx";
+
 
 
 
@@ -70,6 +72,7 @@ export default function App() {
       <Route path="/update-pettycash/:id" element={<UpdatePettyCash />} />
       <Route path="/add-pettycash-entry" element={<AddPettyCash />} />
 
+      <Route path="/product-management/*" element={<ProductManagement />}></Route>
 
     
     
