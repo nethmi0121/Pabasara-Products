@@ -28,7 +28,7 @@ const Product = () => {
     // Fetch all categories for filters
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/product-management/category');
+            const response = await axios.get('/api/product-management/category');
             setCategories(response.data || []);
         } catch (error) {
             console.error("Error fetching categories:", error);
@@ -51,7 +51,7 @@ const Product = () => {
                 });
             }
 
-            const response = await axios.get(`http://localhost:5000/api/product-management/q/product?${params.toString()}`);
+            const response = await axios.get(`/api/product-management/q/product?${params.toString()}`);
             setProducts(response.data.products || []);
         } catch (error) {
             console.error("Error fetching products:", error);

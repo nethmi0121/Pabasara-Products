@@ -11,7 +11,7 @@ const SupplierList = ({ suppliers, onEdit, onDelete }) => {
     // Added new function to handle delete confirmation
     const handleConfirmDelete = async () => {
         try {
-            const response = await axios.delete('http://localhost:5000/api/product-management/supplier', {
+            const response = await axios.delete('/api/product-management/supplier', {
                 data: { id: supplierToDelete.id }
             });
             toast.success(response.data.message || "Supplier deleted successfully", {
@@ -27,7 +27,7 @@ const SupplierList = ({ suppliers, onEdit, onDelete }) => {
             const errorMessage = error.response?.data?.message || "Failed to delete supplier";
             toast.error(errorMessage, {
                 position: 'top-right',
-                autoClose: 5000,
+                autoClose: 3000,
             });
         }
         setShowConfirm(false);

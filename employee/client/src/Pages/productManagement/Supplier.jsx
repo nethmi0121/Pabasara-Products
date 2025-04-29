@@ -24,7 +24,7 @@ const Supplier = () => {
                 params.append('name', searchParams.name);
             }
 
-            const response = await axios.get(`http://localhost:5000/api/product-management/q/supplier?${params.toString()}`);
+            const response = await axios.get(`/api/product-management/q/supplier?${params.toString()}`);
 
             // Map the backend data to match your supplier object structure
             const fetchedSuppliers = response.data.suppliers.map(supplier => ({

@@ -23,14 +23,14 @@ function BankBook() {
     }, []);
 
     const fetchEntries = () => {
-        axios.get("http://localhost:5000/api/bankbook")
+        axios.get("/api/bankbook")
             .then((res) => setEntries(res.data))
             .catch((err) => console.error("Error fetching bank book entries:", err));
     };
 
     const deleteEntry = (id) => {
         if (window.confirm("Are you sure you want to delete this bank book entry?")) {
-            axios.delete(`http://localhost:5000/api/bankbook/${id}`)
+            axios.delete(`/api/bankbook/${id}`)
                 .then(() => fetchEntries())
                 .catch((err) => console.error("Error deleting bank book entry:", err));
         }

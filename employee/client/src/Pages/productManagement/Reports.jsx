@@ -56,28 +56,28 @@ function Reports() {
             name: "Stock Summary Report",
             icon: FileSpreadsheet,
             description: "Complete overview of current inventory levels and stock valuation",
-            downloadUrl: "http://localhost:5000/api/product-management/report/stock-summary"
+            downloadUrl: "/api/product-management/report/stock-summary"
         },
         {
             id: 2,
             name: "Supplies Summary Report",
             icon: BarChart,
             description: "Analysis of supplier performance and delivery statistics",
-            downloadUrl: "http://localhost:5000/api/product-management/report/supplier-stock"
+            downloadUrl: "/api/product-management/report/supplier-stock"
         },
         {
             id: 3,
             name: "Quarterly Sales Report",
             icon: FileText,
             description: "Comprehensive breakdown of sales performance by quarter",
-            downloadUrl: "http://localhost:5000/api/sales/report/quarterly"
+            downloadUrl: "/api/sales/report/quarterly"
         },
         {
             id: 4,
             name: "Inventory Valuation",
             icon: Printer,
             description: "Financial valuation of current inventory with depreciation data",
-            downloadUrl: "http://localhost:5000/api/inventory/report/valuation"
+            downloadUrl: "/api/inventory/report/valuation"
         },
     ];
 

@@ -26,7 +26,7 @@ const ProductForm = ({ onSubmit }) => {
             setIsLoading(true)
             setError(null)
             try {
-                const response = await axios.get('http://localhost:5000/api/product-management/category')
+                const response = await axios.get('/api/product-management/category')
                 // Handle the API response format - extract category names from objects
                 if (Array.isArray(response.data)) {
                     const categoryNames = response.data.map((category) => category.name)
@@ -114,7 +114,7 @@ const ProductForm = ({ onSubmit }) => {
                 // If the category is not in the suggestions, add it via backend
                 if (!availableCategories.includes(cat)) {
                     try {
-                        await axios.post('http://localhost:5000/api/product-management/category', { name: cat })
+                        await axios.post('/api/product-management/category', { name: cat })
                         console.log('New category created:', cat)
                     } catch (err) {
                         console.error('Error creating new category:', err)
@@ -140,7 +140,7 @@ const ProductForm = ({ onSubmit }) => {
         images.forEach((file) => formData.append('images', file))
 
         axios
-            .post('http://localhost:5000/api/product-management/product', formData)
+            .post('/api/product-management/product', formData)
             .then((response) => {
                 console.log('Data posted successfully', response.data)
             })

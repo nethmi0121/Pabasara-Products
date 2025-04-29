@@ -26,7 +26,7 @@ const EditProductForm = ({ product, onSubmit, onClose }) => {
     // Fetch all categories when component mounts
     useEffect(() => {
         axios
-            .get('http://localhost:5000/api/product-management/category')
+            .get('/api/product-management/category')
             .then((response) => {
                 if (response.data && Array.isArray(response.data)) {
                     setAllCategories(response.data)
@@ -54,7 +54,7 @@ const EditProductForm = ({ product, onSubmit, onClose }) => {
         // Handle images
         if (product.images && Array.isArray(product.images)) {
             const imageUrls = product.images.map((img) =>
-                img.startsWith('http') ? img : `http://localhost:5000${img}`
+                img.startsWith('http') ? img : `http://localhost:3000${img}`
             )
             setPreviewImages(imageUrls)
         }
@@ -173,7 +173,7 @@ const EditProductForm = ({ product, onSubmit, onClose }) => {
 
             // Send update request to backend
             const response = await axios.put(
-                'http://localhost:5000/api/product-management/product',
+                '/api/product-management/product',
                 updatedProduct
             )
 

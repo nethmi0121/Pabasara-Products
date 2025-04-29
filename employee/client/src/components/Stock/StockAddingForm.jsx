@@ -19,7 +19,7 @@ const StockAddingForm = ({ onStockAdded }) => {
 
     // Fetch products from API
     useEffect(() => {
-        axios.get('http://localhost:5000/api/product-management/product')
+        axios.get('/api/product-management/product')
             .then(response => {
                 if (response.data && response.data.products) {
                     setAllProducts(response.data.products);
@@ -32,7 +32,7 @@ const StockAddingForm = ({ onStockAdded }) => {
 
     // Fetch suppliers from API
     useEffect(() => {
-        axios.get('http://localhost:5000/api/product-management/supplier')
+        axios.get('/api/product-management/supplier')
             .then(response => {
                 if (response.data) {
                     setAllSuppliers(response.data);
@@ -130,7 +130,7 @@ const StockAddingForm = ({ onStockAdded }) => {
             }))
         };
 
-        axios.post('http://localhost:5000/api/product-management/stock', payload)
+        axios.post('/api/product-management/stock', payload)
             .then(response => {
                 toast.success(response.data.message || "Stock created successfully", {
                     position: 'top-right',
@@ -154,7 +154,7 @@ const StockAddingForm = ({ onStockAdded }) => {
             .catch(error => {
                 toast.error(error.response?.data?.message || "Failed to create stock", {
                     position: 'top-right',
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,

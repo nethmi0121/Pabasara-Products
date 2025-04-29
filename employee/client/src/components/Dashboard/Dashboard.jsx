@@ -12,7 +12,7 @@ function Dashboard() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:5000/Transactions")
+        axios.get("http://localhost:3000/Transactions")
             .then(res => {
                 setTransactions(res.data);
             })

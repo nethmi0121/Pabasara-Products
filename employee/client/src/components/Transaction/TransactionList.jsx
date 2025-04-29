@@ -13,7 +13,7 @@ function TransactionList({ transactions, setTransactions }) {
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/Transactions");
+                const response = await axios.get("http://localhost:3000/Transactions");
                 setTransactions(response.data);
                 setFilteredTransactions(response.data);
             } catch (error) {
@@ -42,8 +42,8 @@ function TransactionList({ transactions, setTransactions }) {
         if (!isConfirmed) return;
 
         try {
-            await axios.delete(`http://localhost:5000/Transactions/${id}`);
-            const response = await axios.get("http://localhost:5000/Transactions");
+            await axios.delete(`http://localhost:3000/Transactions/${id}`);
+            const response = await axios.get("http://localhost:3000/Transactions");
             setTransactions(response.data);
         } catch (error) {
             console.error("Error deleting transaction:", error);

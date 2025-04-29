@@ -34,7 +34,7 @@ function AddPettyCash() {
             return;
         }
 
-        axios.post("http://localhost:5000/api/pettycash", formData)
+        axios.post("/api/pettycash", formData)
             .then(() => navigate("/pettycash"))
             .catch(err => console.error("Error adding petty cash entry:", err));
     };

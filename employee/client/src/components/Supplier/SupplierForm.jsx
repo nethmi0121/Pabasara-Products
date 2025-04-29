@@ -74,7 +74,7 @@ const SupplierForm = ({ supplier, onSubmit, onCancel }) => {
                 let response;
                 if (supplier) {
                     // Update supplier using axios.put (include supplier id)
-                    response = await axios.put('http://localhost:5000/api/product-management/supplier', {
+                    response = await axios.put('/api/product-management/supplier', {
                         ...formData,
                         id: supplier._id || supplier.id
                     });
@@ -88,7 +88,7 @@ const SupplierForm = ({ supplier, onSubmit, onCancel }) => {
                     });
                 } else {
                     // Add supplier using axios.post
-                    response = await axios.post('http://localhost:5000/api/product-management/supplier', formData);
+                    response = await axios.post('/api/product-management/supplier', formData);
                     toast.success('Supplier added successfully!', {
                         position: 'top-right',
                         autoClose: 3000,
@@ -107,7 +107,7 @@ const SupplierForm = ({ supplier, onSubmit, onCancel }) => {
                 const errorMessage = error.response?.data?.message || 'Failed to add supplier';
                 toast.error(errorMessage, {
                     position: 'top-right',
-                    autoClose: 5000,
+                    autoClose: 3000,
                 });
                 console.error('Submission error:', error);
             } finally {

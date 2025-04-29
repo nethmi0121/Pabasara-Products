@@ -22,7 +22,7 @@ const ProductList = ({ products, setProducts, onEdit, fetchProducts }) => {
         if (!productToDelete) return;
 
         try {
-            await axios.delete(`http://localhost:5000/api/product-management/product`, {
+            await axios.delete(`/api/product-management/product`, {
                 data: { id: productToDelete.id }
             });
 
@@ -49,7 +49,7 @@ const ProductList = ({ products, setProducts, onEdit, fetchProducts }) => {
         } catch (error) {
             toast.error(`Failed to delete product: ${error.response?.data?.message || 'Unknown error'}`, {
                 position: 'top-right',
-                autoClose: 5000,
+                autoClose: 3000,
             });
             console.error('Delete error:', error);
         } finally {
@@ -132,7 +132,7 @@ const ProductList = ({ products, setProducts, onEdit, fetchProducts }) => {
                                             <div className="flex-shrink-0 h-10 w-10">
                                                 <img
                                                     className="h-10 w-10 rounded-full object-cover border border-orange-200"
-                                                    src={`http://localhost:5000/uploads/${product.images[0]}`}
+                                                    src={`http://localhost:3000/uploads/${product.images[0]}`}
                                                     alt={product.name}
                                                 />
                                             </div>

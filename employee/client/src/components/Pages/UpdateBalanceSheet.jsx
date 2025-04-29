@@ -16,7 +16,7 @@ function UpdateBalanceSheet() {
     });
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/balancesheet/${id}`)
+        axios.get(`/api/balancesheet/${id}`)
             .then(res => {
                 const entry = res.data;
                 setForm({
@@ -58,7 +58,7 @@ function UpdateBalanceSheet() {
             }
         };
 
-        axios.put(`http://localhost:5000/api/balancesheet/${id}`, updatedData)
+        axios.put(`/api/balancesheet/${id}`, updatedData)
             .then(() => {
                 navigate("/");
             })

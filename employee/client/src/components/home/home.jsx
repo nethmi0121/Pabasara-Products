@@ -135,7 +135,7 @@ function Home() {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide(prev => (prev === carouselImages.length - 1 ? 0 : prev + 1));
-        }, 5000);
+        }, 3000);
 
         return () => clearInterval(interval);
     }, [carouselImages.length]);

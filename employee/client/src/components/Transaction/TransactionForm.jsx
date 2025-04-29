@@ -31,9 +31,9 @@ function TransactionForm({ setTransactions }) {
         }
 
         try {
-            await axios.post("http://localhost:5000/Transactions", formData);
+            await axios.post("http://localhost:3000/Transactions", formData);
 
-            const updatedTransactions = await axios.get("http://localhost:5000/Transactions");
+            const updatedTransactions = await axios.get("http://localhost:3000/Transactions");
             setTransactions(updatedTransactions.data);
 
             setFormData({

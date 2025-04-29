@@ -12,7 +12,7 @@ const StockDetails = ({ stockEntries }) => {
                 stockEntries.flatMap(entry =>
                     entry.products.map(async (product) => {
                         try {
-                            const response = await axios.get(`http://localhost:5000/api/product-management/product/${product.name}`);
+                            const response = await axios.get(`/api/product-management/product/${product.name}`);
                             if (response.data && response.data.product) {
                                 names[product.name] = response.data.product.name;
                             } else {

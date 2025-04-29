@@ -11,7 +11,7 @@ const Stock = () => {
     // Fetch stocks from the backend and update state with transformed data
     useEffect(() => {
         setIsLoading(true);
-        axios.get('http://localhost:5000/api/product-management/stock')
+        axios.get('/api/product-management/stock')
             .then((response) => {
                 if (response.data && response.data.stocks) {
                     const transformedStocks = response.data.stocks.map(stock => {

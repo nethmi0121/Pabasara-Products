@@ -43,14 +43,14 @@ function BalanceSheet() {
     }, []);
 
     const fetchEntries = () => {
-        axios.get("http://localhost:5000/api/balancesheet")
+        axios.get("/api/balancesheet")
             .then(res => setEntries(res.data))
             .catch(err => console.error("Error fetching balance sheet:", err));
     };
 
     const deleteEntry = (id) => {
         if (window.confirm("Are you sure you want to delete this entry?")) {
-            axios.delete(`http://localhost:5000/api/balancesheet/${id}`)
+            axios.delete(`/api/balancesheet/${id}`)
                 .then(() => fetchEntries())
                 .catch(err => console.error("Error deleting entry:", err));
         }
@@ -164,7 +164,7 @@ function BalanceSheet() {
             } : null
         };
 
-        axios.post("http://localhost:5000/api/balancesheet", newEntry)
+        axios.post("/api/balancesheet", newEntry)
             .then(() => {
                 fetchEntries();
                 setForm({

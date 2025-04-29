@@ -34,14 +34,14 @@ function PettyCash() {
     }, []);
 
     const fetchEntries = () => {
-        axios.get("http://localhost:5000/api/pettycash")
+        axios.get("/api/pettycash")
             .then((res) => setEntries(res.data))
             .catch((err) => console.error("Error fetching petty cash entries:", err));
     };
 
     const deleteEntry = (id) => {
         if (window.confirm("Are you sure you want to delete this petty cash entry?")) {
-            axios.delete(`http://localhost:5000/api/pettycash/${id}`)
+            axios.delete(`/api/pettycash/${id}`)
                 .then(() => fetchEntries())
                 .catch((err) => console.error("Error deleting petty cash entry:", err));
         }

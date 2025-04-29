@@ -15,7 +15,7 @@ function UpdatePettyCash() {
     });
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/pettycash/${id}`)
+        axios.get(`/api/pettycash/${id}`)
             .then(res => setFormData(res.data))
             .catch(err => console.error("Error fetching petty cash entry:", err));
     }, [id]);
@@ -33,7 +33,7 @@ function UpdatePettyCash() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:5000/api/pettycash/${id}`, formData)
+        axios.put(`/api/pettycash/${id}`, formData)
             .then(() => navigate("/pettycash"))
             .catch(err => console.error("Error updating petty cash entry:", err));
     };

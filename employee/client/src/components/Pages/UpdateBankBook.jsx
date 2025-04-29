@@ -14,7 +14,7 @@ function UpdateBankBook() {
     });
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/bankbook/${id}`)
+        axios.get(`/api/bankbook/${id}`)
             .then((res) => {
                 const { date, description, deposit, withdrawal } = res.data;
                 setForm({ date, description, deposit, withdrawal });
@@ -58,7 +58,7 @@ function UpdateBankBook() {
             return;
         }
 
-        axios.put(`http://localhost:5000/api/bankbook/${id}`, form)
+        axios.put(`/api/bankbook/${id}`, form)
             .then(() => {
                 navigate("/bankbook");
             })

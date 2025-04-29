@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import leaveRoutes from './routes/leave.routes.js';
@@ -53,6 +54,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, './src/uploads')));
 
+
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow requests from your frontend origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow specific methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+  }));
+
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
@@ -66,8 +75,8 @@ app.use((err, req, res, next) => {
 
 // Start the server
 const startServer = () => {
-    app.listen(9000, () => {
-        console.log('Server listening on port 9000!');
+    app.listen(3000, () => {
+        console.log('Server listening on port 3000!');
     });
 };
 
