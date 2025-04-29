@@ -221,12 +221,13 @@ function BalanceSheet() {
 
                 {/* Search Bar */}
                 <div className="search-bar">
-                    <input
-                        type="text"
-                        placeholder="🔎 Search entries..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                <input
+                    type="text"
+                    placeholder="🔎 Search entries..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    aria-label="Search balance sheet entries"
+                />
                 </div>
 
                 {/* Add New Entry Form */}
@@ -260,7 +261,7 @@ function BalanceSheet() {
                 </form>
 
                 {/* Download Button */}
-                <div style={{ marginBottom: '20px', marginTop: '20px' }}>
+                <div className="download-button-container">
                     <button onClick={handleDownloadFullSheet} className="download-button">
                         📄 Download Balance Sheet PDF
                     </button>

@@ -11,8 +11,10 @@ export default function Header() {
         <Link to='/'><h1 className='twebpagename'>Employee Management</h1></Link> 
    
         <ul className='other-topics'>
-          <Link to='/'><li>Home</li></Link>  
-          <Link to=''><li>About</li></Link>
+          <Link to='/home'><li>Home</li></Link>  
+          <Link to='/product-management/'><li>Inventory</li></Link>
+          
+      
           <Link to='/profile'>
             {currentUser ? (
               <img src={currentUser.profilePicture} alt='Profile' className='h-7 w-7 rounded-full object-cover' />

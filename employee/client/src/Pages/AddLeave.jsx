@@ -116,7 +116,7 @@ export default function AddLeave() {
         text: "Leave request added successfully!",
       });
 
-      navigate('/employeeProfile');
+      navigate('/leaveprofile');
     } catch (error) {
       setError('Something went wrong!');
       Swal.fire({

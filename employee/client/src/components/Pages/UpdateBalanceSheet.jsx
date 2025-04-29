@@ -60,7 +60,7 @@ function UpdateBalanceSheet() {
 
         axios.put(`/api/balancesheet/${id}`, updatedData)
             .then(() => {
-                navigate("/");
+                navigate("/balancesheet");
             })
             .catch(err => console.error("Error updating entry:", err));
     };

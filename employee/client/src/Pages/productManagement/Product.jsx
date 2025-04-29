@@ -113,6 +113,7 @@ const Product = () => {
     const deleteProduct = (id) => {
         // Optionally, you can add an API call here to delete on backend.
         setProducts(products.filter((product) => product.id !== id));
+       
     };
 
     const handleEdit = (product) => {

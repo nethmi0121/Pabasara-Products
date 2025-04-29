@@ -1,7 +1,9 @@
 import Payment from '../models/paymentModel.js';
-import stripe from 'stripe';
+import Stripe from 'stripe';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const Stripe = stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createPaymentIntent = async (req, res) => {
     const { userId, amount, currency, paymentMethodId } = req.body;
@@ -11,9 +13,9 @@ export const createPaymentIntent = async (req, res) => {
     }
 
     try {
-        const paymentIntent = await Stripe.paymentIntents.create({
-            amount: amount,
-            currency: currency,
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount,
+            currency,
             payment_method: paymentMethodId,
             automatic_payment_methods: {
                 enabled: true,
@@ -44,7 +46,7 @@ export const createPaymentIntent = async (req, res) => {
 export const confirmPayment = async (req, res) => {
     const { paymentIntentId } = req.body;
     try {
-        const paymentIntent = await Stripe.paymentIntents.retrieve(paymentIntentId);
+        const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
         if (paymentIntent.status === 'succeeded') {
             return res.status(200).json({
@@ -61,7 +63,7 @@ export const confirmPayment = async (req, res) => {
             });
         }
 
-        const confirmedPaymentIntent = await Stripe.paymentIntents.confirm(paymentIntentId);
+        const confirmedPaymentIntent = await stripe.paymentIntents.confirm(paymentIntentId);
 
         const payment = await Payment.findOne({ paymentIntentId: confirmedPaymentIntent.id });
         if (payment) {

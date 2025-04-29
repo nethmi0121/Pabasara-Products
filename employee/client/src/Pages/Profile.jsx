@@ -159,6 +159,9 @@ export default function Profile() {
         </div>
 
         <div className="mt-5 d-flex flex-column align-items-center gap-3">
+          <Link className='custom-btn-orange w-50' to="/pettycash">
+            Add Petty Cash Entry
+          </Link>
   <Link className="custom-btn-yellow w-50" to="/additem">
     Add Employee Details
   </Link>

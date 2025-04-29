@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
+
 import {
     FaShoppingCart,
     FaUser,
@@ -27,8 +28,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import './Payments.css';
 
-const URL = "http://localhost:3000/payments/get-all";
-const DELETE_URL = "http://localhost:3000/payments/delete";
+const URL = "/api/payments/get-all";
+const DELETE_URL = "/api/payments/delete";
 
 const fetchHandler = async () => {
     try {
@@ -78,63 +79,57 @@ function Payments() {
 
     const generatePDF = () => {
         const doc = new jsPDF();
-        const logoImg = new Image();
-        logoImg.src = `${process.env.PUBLIC_URL}/Logo.jpg`;
-
-        logoImg.onload = () => {
-            const pageWidth = doc.internal.pageSize.getWidth();
-            const pageHeight = doc.internal.pageSize.getHeight();
-
-            doc.setDrawColor(0);
-            doc.setLineWidth(0.8);
-            doc.roundedRect(10, 10, pageWidth - 20, pageHeight - 20, 5, 5);
-
-            doc.addImage(logoImg, 'JPG', 12, 12, 30, 30);
-
-            doc.setFontSize(24);
-            doc.setFont("helvetica", "bold");
-            doc.setTextColor(15, 167, 134);
-            doc.text("Pabasara Products", pageWidth / 2, 25, { align: 'center' });
-
-            doc.setFontSize(18);
-            doc.setTextColor(0, 0, 0);
-            doc.text("Payment Report", pageWidth / 2, 45, { align: 'center' });
-
-            const columns = ["User ID", "Amount", "Currency", "Status", "Payment ID", "Date"];
-            const rows = filteredPayments.map(payment => [
-                payment.userId,
-                payment.amount,
-                payment.currency,
-                payment.status,
-                payment.paymentIntentId,
-                new Date(payment.createdAt).toLocaleString()
-            ]);
-
-            autoTable(doc, {
-                head: [columns],
-                body: rows,
-                startY: 55,
-                theme: 'grid',
-                headStyles: {
-                    fillColor: [0, 123, 255],
-                    textColor: 255,
-                    fontStyle: 'bold'
-                },
-                bodyStyles: {
-                    fontSize: 10
-                }
-            });
-
-            const dateStr = new Date().toLocaleString();
-            doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text(`Generated on: ${dateStr}`, 14, pageHeight - 10);
-            doc.text(`Page 1`, pageWidth - 30, pageHeight - 10);
-
-            doc.save("Pay_Report.pdf");
-        };
+    
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+    
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.8);
+        doc.roundedRect(10, 10, pageWidth - 20, pageHeight - 20, 5, 5);
+    
+        // Skip adding the logo image
+        doc.setFontSize(24);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(15, 167, 134);
+        doc.text("Pabasara Products", pageWidth / 2, 25, { align: 'center' });
+    
+        doc.setFontSize(18);
+        doc.setTextColor(0, 0, 0);
+        doc.text("Payment Report", pageWidth / 2, 45, { align: 'center' });
+    
+        const columns = ["User ID", "Amount", "Currency", "Status", "Payment ID", "Date"];
+        const rows = filteredPayments.map(payment => [
+            payment.userId,
+            payment.amount,
+            payment.currency,
+            payment.status,
+            payment.paymentIntentId,
+            new Date(payment.createdAt).toLocaleString()
+        ]);
+    
+        autoTable(doc, {
+            head: [columns],
+            body: rows,
+            startY: 55,
+            theme: 'grid',
+            headStyles: {
+                fillColor: [0, 123, 255],
+                textColor: 255,
+                fontStyle: 'bold'
+            },
+            bodyStyles: {
+                fontSize: 10
+            }
+        });
+    
+        const dateStr = new Date().toLocaleString();
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text(`Generated on: ${dateStr}`, 14, pageHeight - 10);
+        doc.text(`Page 1`, pageWidth - 30, pageHeight - 10);
+    
+        doc.save("Pay_Report.pdf");
     };
-
     const sendWhatsAppMessage = (payment) => {
         const message = `📊 *Payment Details* 📊\n\n` +
             `*User ID:* ${payment.userId}\n` +

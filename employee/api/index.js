@@ -11,6 +11,7 @@ import transactionsRoutes from './routes/TransactionsRoutes.js';
 import balanceSheetRoutes from './routes/BalanceSheetRoutes.js';
 import bankBookRoutes from './routes/BankBookRoutes.js';
 import pettyCashRoutes from './routes/PettyCashRoutes.js';
+import paymentRoute from './routes/paymentRoute.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import productManagementRoutes from './routes/productManagementRoutes/ProductManagementRoutes.js';
@@ -48,6 +49,7 @@ app.use('/api/balancesheet', balanceSheetRoutes);
 app.use('/api/bankbook', bankBookRoutes);
 app.use('/api/pettycash', pettyCashRoutes);
 app.use('/api/product-management', productManagementRoutes);
+app.use('/api/payments',paymentRoute );
 
 // Serve static files for uploads
 const __filename = fileURLToPath(import.meta.url);

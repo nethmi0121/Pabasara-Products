@@ -54,7 +54,7 @@ function Cart() {
     };
 
     const continueShopping = () => {
-        navigate('/');
+        navigate('/home');
     };
 
     // Calculate totals

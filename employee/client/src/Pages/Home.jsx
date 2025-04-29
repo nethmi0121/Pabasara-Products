@@ -45,7 +45,7 @@ export default function EmployeeDetails() {
         <h1>Employee Details and Leave Form</h1>
         <p>Manage employee records, check leave history, and update leave status.</p>
         <button className="cta-button">
-          <Link to="/">Add Leave</Link>
+          <Link to="/addleave">Add Leave</Link>
         </button>
       </div>
 
