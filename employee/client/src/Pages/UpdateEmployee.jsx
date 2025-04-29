@@ -6,12 +6,12 @@ import { app } from '../firebase';
 import { getStorage, uploadBytesResumable, ref, getDownloadURL } from 'firebase/storage';
 
 export default function  UpdateEmployee() {
-  const [imagePercent, setImagePercent] = useState(0);
+  const [, setImagePercent] = useState(0);
   const navigate = useNavigate();
   const { id } = useParams();
   const fileRef1 = useRef(null);
 
-  const [image1, setImage1] = useState(undefined);
+  const [image1] = useState(undefined);
   const [image2, setImage2] = useState(undefined);
   const [updatediscount, setupdatediscount] = useState({
     emp_id: "",

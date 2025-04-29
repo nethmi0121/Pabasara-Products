@@ -1,0 +1,43 @@
+.nav-ul {
+    list-style-type: none; /* Remove bullet points */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Arrange items horizontally */
+    background-color: #333; /* Dark background color */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Padding for spacing */
+}
+
+.nav-li {
+    margin-right: 20px; /* Space between list items */
+}
+
+.nav-li:last-child {
+    margin-right: 0; /* Remove right margin from the last item */
+}
+
+.nav-li h1 {
+    margin: 0; /* Remove default margin from h1 */
+    font-size: 1.2em; /* Adjust font size as needed */
+    cursor: pointer; /* Indicate clickable item */
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.nav-li h1:hover {
+    color: #bbb; /* Lighter color on hover */
+}
+
+.home-ul {
+    list-style: none;
+    display: flex;
+    background-color: black;
+    padding: 10px;
+}
+
+.home-li {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+    cursor: pointer;
+}

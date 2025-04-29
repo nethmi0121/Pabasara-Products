@@ -27,11 +27,21 @@ import AddbankBook from "./components/Pages/AddbankBook.jsx";
 import PettyCash from "./components/Pages/PettyCash.jsx";
 import UpdatePettyCash from "./components/Pages/UpdatePettyCash.jsx";
 import AddPettyCash from "./components/Pages/AddPettyCash.jsx";
+import ProductManagement from "./components/routes/ProductManagement.jsx";
+import Home from "./components/home/home.jsx";
+import Cart from "./components/Cart/Cart.jsx";
+import Addpay from "./components/AddPayment/Addpay.jsx";
+import Payments from "./components/PaymentDetails/Payments.jsx";
+import ProductDetails from "./components/productDetails/productDetails.jsx";
+
 
 
 
 
 export default function App() {
+  const onPaymentAdded = (paymentData) => {
+    console.log('Payment added:', paymentData);
+  };
   return <BrowserRouter>
 <Header/>
   <Routes>
@@ -70,8 +80,14 @@ export default function App() {
       <Route path="/update-pettycash/:id" element={<UpdatePettyCash />} />
       <Route path="/add-pettycash-entry" element={<AddPettyCash />} />
 
+      <Route path="/product-management/*" element={<ProductManagement />}></Route>
 
-    
+    {/*new from order branch*/}
+      <Route path="/home" element={<Home />} />
+      <Route path="/maincart" element={<Cart />} />
+      <Route path="/mainpayment" element={<Addpay onPaymentAdded={onPaymentAdded} />} />
+      <Route path="/mainpaymentdetails" element={<Payments />} />
+      <Route path="/product/:id" element={<ProductDetails />} />
     
     </Route>
  

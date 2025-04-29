@@ -1,49 +1,78 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import userRoutes from './routes/user.routes.js'
-import authroutes from './routes/auth.routes.js'
-import LeaveRoutes from './routes/leave.routes.js'
-
+import userRoutes from './routes/user.routes.js';
+import authRoutes from './routes/auth.routes.js';
+import leaveRoutes from './routes/leave.routes.js';
 import cookieParser from 'cookie-parser';
+import adminRoutes from './routes/admin.routes.js';
+import transactionsRoutes from './routes/TransactionsRoutes.js';
+import balanceSheetRoutes from './routes/BalanceSheetRoutes.js';
+import bankBookRoutes from './routes/BankBookRoutes.js';
+import pettyCashRoutes from './routes/PettyCashRoutes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import productManagementRoutes from './routes/productManagementRoutes/ProductManagementRoutes.js';
+import stripe from 'stripe';
 
-import adminroutes from './routes/admin.routes.js'
-import transactionsRoutes from "./routes/TransactionsRoutes.js";
-import balanceSheetRoutes from "./routes/BalanceSheetRoutes.js";
-import bankBookRoutes from "./routes/BankBookRoutes.js";
-import pettyCashRoutes from "./routes/PettyCashRoutes.js";
 dotenv.config();
 
-mongoose.connect(process.env.MONGO).then(()=>{
-    console.log('Connected to Mongodb')
-}).catch((err)=>{
-    console.log(err)
-})
+// Initialize Stripe with the secret key
+const Stripe = stripe(process.env.STRIPE_SECRET_KEY);
+console.log('Stripe Secret Key:', process.env.STRIPE_SECRET_KEY);
 
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO)
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch((err) => {
+        console.error('MongoDB connection error:', err);
+    });
+
+// Initialize Express app
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-app.listen(3000, () => {
-    console.log('server listen on port 3000!')
-});
-
-
-app.use("/api/user",userRoutes)
-app.use("/api/auth",authroutes)
-app.use("/api/admin",adminroutes)
-app.use("/api/leave",LeaveRoutes)
+// Routes
+app.use('/api/user', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/leave', leaveRoutes);
 app.use('/Transactions', transactionsRoutes);
 app.use('/api/balancesheet', balanceSheetRoutes);
 app.use('/api/bankbook', bankBookRoutes);
 app.use('/api/pettycash', pettyCashRoutes);
+app.use('/api/product-management', productManagementRoutes);
 
-app.use((err,req,res,next)=>{
-    const statusCode=err.statusCode||500;
-    const message=err.message||'internal server error'
+// Serve static files for uploads
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use('/uploads', express.static(path.join(__dirname, './src/uploads')));
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal server error';
     return res.status(statusCode).json({
-        success:false,
+        success: false,
         message,
         statusCode,
-    })
-})
+    });
+});
+
+// Start the server
+const startServer = () => {
+    app.listen(9000, () => {
+        console.log('Server listening on port 9000!');
+    });
+};
+
+// Call startServer to start the server when the module is run directly
+startServer();
+
+// Export the app and startServer function for use in other modules
+export { app, startServer };
