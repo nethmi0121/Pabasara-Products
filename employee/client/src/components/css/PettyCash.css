@@ -1,0 +1,123 @@
+.pettycash-container {
+    padding: 20px;
+    background: linear-gradient(to bottom right, #ffeaa7, #fab1a0);
+    min-height: 100vh;
+}
+
+.pettycash-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.pettycash-table th,
+.pettycash-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center; /* Center-align text in the table */
+}
+
+.pettycash-table th {
+    background-color: #f2f2f2;
+}
+
+.total-row {
+    background-color: #e2e2e2;
+}
+
+.button-container {
+    margin-bottom: 15px;
+}
+
+.add-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Search Bar Styling */
+.search-bar {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar input {
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #ffa726; /* Orange border */
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+    background-color: #fff3e0; /* Lighter background inside input */
+}
+
+.search-bar input::placeholder {
+    color: #ff9800; /* Placeholder text color */
+}
+
+/* Styling for Action Buttons inside the table */
+.action-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 5px; /* Space between buttons */
+}
+
+.action-buttons button {
+    width: 80px; /* Same width for all buttons */
+    padding: 8px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Smooth hover transition */
+}
+
+.action-buttons button:hover {
+    opacity: 0.8; /* Slightly fade on hover */
+}
+
+/* Individual button styles */
+.edit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.download-entry-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.whatsapp-entry-button {
+    background-color: #25D366;
+    color: white;
+}
+
+/* Optional: You can add hover effect to each button for a more interactive look */
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+.download-entry-button:hover {
+    background-color: #5a6268;
+}
+
+.whatsapp-entry-button:hover {
+    background-color: #128c7e;
+}
