@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Package, Boxes, Truck, MessageSquare, Home, LogOut, Cake, DownloadCloud } from "lucide-react";
+import { Package, Boxes, Truck, MessageSquare, Home, LogOut, Cake, DownloadCloud, LayoutDashboard } from "lucide-react";
 
 
 const Sidebar = () => {
@@ -30,7 +30,8 @@ const Sidebar = () => {
 
             {/* Navigation Items */}
             <nav className="flex flex-col px-2 space-y-1 flex-grow mt-2">
-                <NavItem to="/product-management/dashboard" icon={<Home size={18} />} label="Dashboard" />
+                <NavItem to="/home" icon={<Home size={18} />} label="Home" />
+                <NavItem to="/product-management/dashboard" icon={<LayoutDashboard size={18} />} label="Dashboard" />
                 <NavItem to="/product-management/products" icon={<Package size={18} />} label="Products" />
                 <NavItem to="/product-management/stock" icon={<Boxes size={18} />} label="Stock" />
                 <NavItem to="/product-management/supplier" icon={<Truck size={18} />} label="Supplier" />

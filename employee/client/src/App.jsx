@@ -1,5 +1,7 @@
-import {BrowserRouter ,Routes,Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
+// all your imports...
 import About from './Pages/About';
 import Signin from './Pages/Signin';
 import SignUp from './Pages/SignUp';
@@ -34,66 +36,67 @@ import Addpay from "./components/AddPayment/Addpay.jsx";
 import Payments from "./components/PaymentDetails/Payments.jsx";
 import ProductDetails from "./components/productDetails/productDetails.jsx";
 
+// Wrapper component to access `useLocation`
+function AppWrapper() {
+  const location = useLocation();
 
+  // Define paths where Header should be hidden
+  const hideHeaderPaths = ['/product-management'];
 
+  // Check if current path starts with any of the hide paths
+  const hideHeader = hideHeaderPaths.some(path => location.pathname.startsWith(path));
 
-
-export default function App() {
   const onPaymentAdded = (paymentData) => {
     console.log('Payment added:', paymentData);
   };
-  return <BrowserRouter>
-<Header/>
-  <Routes>
-    <Route path="/" element={<EmployeeDetails/>}></Route>
 
-    <Route path="/about" element={<About/>}></Route>
-    <Route path="/sign-in" element={<Signin/>}></Route>
-    <Route path="/additem" element={<AddEmployee/>}></Route>
-    <Route path="/sign-up" element={<SignUp/>}></Route>
-    <Route path="/admin_signup" element={<ManagerSignUp/>}></Route>
-    <Route path="/admin_signin" element={<ManagerSignin/>}></Route>
-    <Route path="/all-feedback" element={<EmployeeProfileAll/>}></Route>
+  return (
+    <>
+      {!hideHeader && <Header />}
+      <Routes>
+        <Route path="/" element={<EmployeeDetails />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/sign-in" element={<Signin />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/admin_signup" element={<ManagerSignUp />} />
+        <Route path="/admin_signin" element={<ManagerSignin />} />
+        <Route path="/additem" element={<AddEmployee />} />
+        <Route path="/all-feedback" element={<EmployeeProfileAll />} />
+        <Route path="/addleave" element={<AddLeave />} />
 
-    <Route path="/addleave" element={<AddLeave/>}></Route>
+        <Route element={<PrivateRoutes />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/leaveprofile" element={<LeaveProfile />} />
+          <Route path="/employeeprofile" element={<EmployeeProfile />} />
+          <Route path="/update-item/:id" element={<UpdateEmployee />} />
 
-    
-    <Route element={<PrivateRoutes/>}>
-    <Route path="/profile" element={<Profile/>}></Route>
-  
-    <Route path="/leaveprofile" element={<LeaveProfile/>}></Route>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/update-transaction/:id" element={<UpdateTransactions />} />
+          <Route path="/balancesheet" element={<BalanceSheet />} />
+          <Route path="/update-balance/:id" element={<UpdateBalanceSheet />} />
+          <Route path="/bankbook" element={<BankBook />} />
+          <Route path="/update-bankbook/:id" element={<UpdateBankBook />} />
+          <Route path="/add-bank-entry" element={<AddbankBook />} />
+          <Route path="/pettycash" element={<PettyCash />} />
+          <Route path="/update-pettycash/:id" element={<UpdatePettyCash />} />
+          <Route path="/add-pettycash-entry" element={<AddPettyCash />} />
 
-    <Route path="/employeeprofile" element={<EmployeeProfile/>}></Route>
-    
-    <Route path="/update-item/:id" element={<UpdateEmployee/>}></Route>
+          <Route path="/product-management/*" element={<ProductManagement />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/maincart" element={<Cart />} />
+          <Route path="/mainpayment" element={<Addpay onPaymentAdded={onPaymentAdded} />} />
+          <Route path="/mainpaymentdetails" element={<Payments />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+        </Route>
+      </Routes>
+    </>
+  );
+}
 
-      {/*new routes for master branch*/}
-
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/update-transaction/:id" element={<UpdateTransactions />} />
-      <Route path="/balancesheet" element={<BalanceSheet />} />
-      <Route path="/update-balance/:id" element={<UpdateBalanceSheet />} />
-      <Route path="/bankbook" element={<BankBook />} />
-      <Route path="/update-bankbook/:id" element={<UpdateBankBook />} />
-      <Route path="/add-bank-entry" element={<AddbankBook />} />
-      <Route path="/pettycash" element={<PettyCash />} />
-      <Route path="/update-pettycash/:id" element={<UpdatePettyCash />} />
-      <Route path="/add-pettycash-entry" element={<AddPettyCash />} />
-
-      <Route path="/product-management/*" element={<ProductManagement />}></Route>
-
-    {/*new from order branch*/}
-      <Route path="/home" element={<Home />} />
-      <Route path="/maincart" element={<Cart />} />
-      <Route path="/mainpayment" element={<Addpay onPaymentAdded={onPaymentAdded} />} />
-      <Route path="/mainpaymentdetails" element={<Payments />} />
-      <Route path="/product/:id" element={<ProductDetails />} />
-    
-    </Route>
- 
-    
-  </Routes>
-  
-  </BrowserRouter>
-  
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppWrapper />
+    </BrowserRouter>
+  );
 }

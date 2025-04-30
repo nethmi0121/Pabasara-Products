@@ -69,65 +69,65 @@ function UpdateBalanceSheet() {
         <div className="update-form-container">
             <div className="update-form">
                 <h2>Update Balance Sheet Entry</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>balancesheet
                     <h3>Income</h3>
                     <div className="form-group">
-                        <input
-                            type="date"
-                            name="incomeDate"
-                            value={form.incomeDate}
-                            onChange={handleChange}
+                        <input 
+                            type="date" 
+                            name="incomeDate" 
+                            value={form.incomeDate} 
+                            onChange={handleChange} 
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <input
-                            type="text"
-                            name="incomeDesc"
-                            placeholder="Description"
-                            value={form.incomeDesc}
-                            onChange={handleChange}
+                        <input 
+                            type="text" 
+                            name="incomeDesc" 
+                            placeholder="Description" 
+                            value={form.incomeDesc} 
+                            onChange={handleChange} 
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <input
-                            type="number"
-                            name="incomeAmount"
-                            placeholder="Amount"
-                            value={form.incomeAmount}
-                            onChange={handleChange}
+                        <input 
+                            type="number" 
+                            name="incomeAmount" 
+                            placeholder="Amount" 
+                            value={form.incomeAmount} 
+                            onChange={handleChange} 
                             min="0"
                         />
                     </div>
 
                     <h3>Expense</h3>
                     <div className="form-group">
-                        <input
-                            type="date"
-                            name="expenseDate"
-                            value={form.expenseDate}
-                            onChange={handleChange}
+                        <input 
+                            type="date" 
+                            name="expenseDate" 
+                            value={form.expenseDate} 
+                            onChange={handleChange} 
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <input
-                            type="text"
-                            name="expenseDesc"
-                            placeholder="Description"
-                            value={form.expenseDesc}
-                            onChange={handleChange}
+                        <input 
+                            type="text" 
+                            name="expenseDesc" 
+                            placeholder="Description" 
+                            value={form.expenseDesc} 
+                            onChange={handleChange} 
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <input
-                            type="number"
-                            name="expenseAmount"
-                            placeholder="Amount"
-                            value={form.expenseAmount}
-                            onChange={handleChange}
+                        <input 
+                            type="number" 
+                            name="expenseAmount" 
+                            placeholder="Amount" 
+                            value={form.expenseAmount} 
+                            onChange={handleChange} 
                             min="0"
                         />
                     </div>
